@@ -1,8 +1,9 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import { Button } from "semantic-ui-react"
+import { Button, Segment } from "semantic-ui-react"
 
 import "semantic-ui-css/semantic.min.css"
+import { Home } from "./components/Home";
 
 class App extends React.Component<{}, {}> {
     constructor(props) {
@@ -10,10 +11,10 @@ class App extends React.Component<{}, {}> {
     }
     public render() {
         return (
-            <div>
-                <h1>Hello, world!</h1>
+            <Segment>
+                <Home />
                 <Button>Hello</Button>
-            </div>
+            </Segment>
         );
     }
 }
