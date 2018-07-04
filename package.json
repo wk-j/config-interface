@@ -1,0 +1,28 @@
+{
+  "name": "config-interface",
+  "version": "1.0.0",
+  "description": "```bash npm install ```",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
+    "axios": "^0.18.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "typescript": "^2.9.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wk-j/config-interface.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wk-j/config-interface/issues"
+  },
+  "homepage": "https://github.com/wk-j/config-interface#readme"
+}
