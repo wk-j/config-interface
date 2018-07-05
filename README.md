@@ -1,6 +1,6 @@
-## Interface
+## Config Interface
 
 ```bash
 npm install
-parcel src/index.html
+npm start
 ```

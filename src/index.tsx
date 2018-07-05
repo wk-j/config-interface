@@ -12,6 +12,10 @@ type State = {
   projectContent: string
 }
 
+const Wrapper = styled.section`
+  padding: 4em;
+`
+
 class App extends React.Component<{}, State> {
 
   constructor(props) {
@@ -23,22 +27,20 @@ class App extends React.Component<{}, State> {
     }
   }
   public render() {
-    const Wrapper = styled.section`
-  padding: 4em;
-  `;
+
     return (
       <Wrapper>
-      <Grid>
-        <Grid.Column width={4}>
-          <h1>Config Editer</h1>
+        <Grid>
+          <Grid.Column width={4}>
+            <h1>Config Editer</h1>
 
-        </Grid.Column>
-        <Grid.Row>
-          <Segment>
-          <MenuV />
-          </Segment>
-        </Grid.Row>
-      </Grid>
+          </Grid.Column>
+          <Grid.Row>
+            <Segment>
+              <MenuV />
+            </Segment>
+          </Grid.Row>
+        </Grid>
       </Wrapper>
     );
   }
