@@ -11,7 +11,6 @@ type State = {
   projectPath: string
   projectContent: string
 }
-
 class App extends React.Component<{}, State> {
 
   constructor(props) {
