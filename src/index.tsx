@@ -11,11 +11,6 @@ type State = {
   projectPath: string
   projectContent: string
 }
-
-const Wrapper = styled.section`
-  padding: 4em;
-`
-
 class App extends React.Component<{}, State> {
 
   constructor(props) {
@@ -27,7 +22,9 @@ class App extends React.Component<{}, State> {
     }
   }
   public render() {
-
+    const Wrapper = styled.section`
+  padding: 4em;
+  `;
     return (
       <Wrapper>
         <Grid>
@@ -36,9 +33,11 @@ class App extends React.Component<{}, State> {
 
           </Grid.Column>
           <Grid.Row>
+          <Grid.Column width={15}>
             <Segment>
               <MenuV />
             </Segment>
+            </Grid.Column>
           </Grid.Row>
         </Grid>
       </Wrapper>
