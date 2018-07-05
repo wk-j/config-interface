@@ -12,7 +12,7 @@ export default class MenuV extends Component {
     return (
       <div>
         <Menu pointing>
-          <Menu.Item name="home" active={activeItem === "home"} onClick={this.handleItemClick} />
+          <Menu.Item name="Home" active={activeItem === "home"} onClick={this.handleItemClick} />
           <Menu.Item
             name="messages"
             active={activeItem === "messages"}
@@ -31,7 +31,6 @@ export default class MenuV extends Component {
         </Menu>
 
         <Segment>
-          <img src="/images/wireframe/paragraph.png" />
         </Segment>
       </div>
     )
