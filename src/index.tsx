@@ -28,17 +28,19 @@ class App extends React.Component<{}, State> {
   `;
     return (
       <Wrapper>
-      <Grid>
-        <Grid.Column width={4}>
-          <h1>Config Editer</h1>
+        <Grid>
+          <Grid.Column width={4}>
+            <h1>Config Editer</h1>
 
-        </Grid.Column>
-        <Grid.Row>
-          <Segment>
-          <MenuV />
-          </Segment>
-        </Grid.Row>
-      </Grid>
+          </Grid.Column>
+          <Grid.Row>
+          <Grid.Column width={15}>
+            <Segment>
+              <MenuV />
+            </Segment>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </Wrapper>
     );
   }
