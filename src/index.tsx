@@ -1,39 +1,47 @@
 import React from "react"
 import ReactDOM from "react-dom"
-//import { Button, Segment } from "semantic-ui-react"
-import { Grid, Menu, Segment } from 'semantic-ui-react'
+import { Grid, Menu, Segment } from "semantic-ui-react"
+import styled from "styled-components";
 
-//import "semantic-ui-css/semantic.min.css"
-//import { Home } from "./components/Home";
+import "semantic-ui-css/semantic.min.css"
+import MenuV from "./components/menu";
 
-class App extends React.Component<{}, {}> {
-    constructor(props) {
-        super(props);
+type State = {
+  projectName: string
+  projectPath: string
+  projectContent: string
+}
+
+class App extends React.Component<{}, State> {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      projectName: "",
+      projectPath: "",
+      projectContent: "",
     }
-    state = { activeItem: 'Home' }
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-    public render() {const { activeItem } = this.state
-        return (
-            <Grid>
-        <Grid.Column width={4}> 
-        <h1>Config Editer</h1>
-
-          <Menu fluid vertical tabular>
-            <Menu.Item name='Home' active={activeItem === 'Home'} onClick={this.handleItemClick} />
-            <Menu.Item name='Select' active={activeItem === 'Select'} onClick={this.handleItemClick} />
-            <Menu.Item name='Edit'  active={activeItem === 'Edit'} onClick={this.handleItemClick} />
-            <Menu.Item name='Save' active={activeItem === 'Save'} onClick={this.handleItemClick} />
-          </Menu>
+  }
+  public render() {
+    const Wrapper = styled.section`
+  padding: 4em;
+  `;
+    return (
+      <Wrapper>
+      <Grid>
+        <Grid.Column width={4}>
+          <h1>Config Editer</h1>
 
         </Grid.Column>
-        <Grid.Column stretched width={12}>
+        <Grid.Row>
           <Segment>
-            Hello world
+          <MenuV />
           </Segment>
-        </Grid.Column>
+        </Grid.Row>
       </Grid>
-        );
-    }
+      </Wrapper>
+    );
+  }
 }
 
 let root = document.getElementById("root")

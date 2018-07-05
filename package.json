@@ -19,12 +19,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wk-j/config-interface.git"
+    "url": "git+https://github.com/bcircle-intern/config-interface.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wk-j/config-interface/issues"
+    "url": "https://github.com/bcircle-intern/config-interface/issues"
   },
-  "homepage": "https://github.com/wk-j/config-interface#readme"
+  "homepage": "https://github.com/bcircle-intern/config-interface#readme"
 }
