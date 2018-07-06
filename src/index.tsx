@@ -63,7 +63,7 @@ class App extends React.Component<{}, State> {
         // เอาค่าpathเก็บไปไว้ในแอรแรย์ก่อย
         pathProjects.push(x);
       });
-      this.setState({pathProject: pathProjects})
+      this.setState({ pathProject: pathProjects })
       //
       //
       // ____________ดึงชื่อไฟล์ตั้งค่าของproject____________|
@@ -80,7 +80,7 @@ class App extends React.Component<{}, State> {
       });
       // tslint:disable-next-line:no-console
       console.log(fileNames)
-      this.setState({fileName: fileNames})
+      this.setState({ fileName: fileNames })
       // this.setState({fileName: fileNames})
     })
   }
@@ -121,7 +121,7 @@ class App extends React.Component<{}, State> {
     this.initProjectSettings(data.value)
   }
   public selectFile(e, data) {
-    this.setState({projectPath: data.value})
+    this.setState({ projectPath: data.value })
     // __________ฟังก์ชั่นสำหรับการนำค่าในไฟลsetting____________|
     this.initSettingContent(data.value);
     this.setState({ projectContent: "" })
@@ -139,17 +139,17 @@ class App extends React.Component<{}, State> {
     const Wrapper = styled.section`padding: 4em;`;
     // _______________สร้างlist_____________|
     const listz = this.state.fileName.map((file) => (
-    <List.Item onClick = { this.selectFile.bind(this) } value = { this.state.pathProject[this.findPath((file))] }>
-    <List.Icon name="file" size="large" verticalAlign="middle" />
-    <List.Content>
-    <List.Header as="a" >File Name : {file}</List.Header>
-    <List.Description as="a">{this.state.pathProject[this.findPath((file))]}</List.Description>
-    </List.Content>
-    </List.Item>
+      <List.Item onClick={this.selectFile.bind(this)} value={this.state.pathProject[this.findPath((file))]}>
+        <List.Icon name="file" size="large" verticalAlign="middle" />
+        <List.Content>
+          <List.Header as="a" >File Name : {file}</List.Header>
+          <List.Description as="a">{this.state.pathProject[this.findPath((file))]}</List.Description>
+        </List.Content>
+      </List.Item>
     ));
     // ____________________________________|
     const DropdownProjectName = () => (
-      <Dropdown placeholder="Select Project..." fluid selection options = {dropdownOption}
+      <Dropdown placeholder="Select Project..." fluid selection options={dropdownOption}
         onChange={this.setValue.bind(this)} value={this.state.projectName} />
     )
 
@@ -165,30 +165,30 @@ class App extends React.Component<{}, State> {
                 <MenuV />
                 <DropdownProjectName />
                 <List divided relaxed>
-                    {listz}
-                  </List>
-                  <TextArea autoHeight placeholder="Choose Project and File First" value = {this.state.projectContent}
-                  style={{ width: 400}} />
+                  {listz}
+                </List>
+                <TextArea autoHeight placeholder="Choose Project and File First" value={this.state.projectContent}
+                  style={{ width: 400 }} />
               </Segment>
               <Segment >
-              <h1>Show Data</h1>
-              projectname : {this.Showproject()}
-              <br />
-              projectpath : {this.ShowPath()}
-              <br />
-              projectcontent : {this.ShowContent()}
-              <br />
-              filename : {this.ShowFile()}
-              <br />
-              path : {this.ShowPathz()}
-            </Segment>
+                <h1>Show Data</h1>
+                projectname : {this.Showproject()}
+                <br />
+                projectpath : {this.ShowPath()}
+                <br />
+                projectcontent : {this.ShowContent()}
+                <br />
+                filename : {this.ShowFile()}
+                <br />
+                path : {this.ShowPathz()}
+              </Segment>
             </Grid.Column>
           </Grid.Row>
         </Grid>
       </Wrapper>
-        );
-      }
-    }
+    );
+  }
+}
 
 let root = document.getElementById("root")
 ReactDOM.render(<App />, root)
