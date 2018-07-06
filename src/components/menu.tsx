@@ -1,39 +1,36 @@
 import React, { Component } from "react"
-import { Input, Menu, Segment } from "semantic-ui-react"
+import { Menu } from "semantic-ui-react"
 
-export default class MenuV extends Component {
-  public state = { activeItem: "home" }
+export default class MenuExampleBasic extends Component {
+  public state = {}
 
   public handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   public render() {
-    const { activeItem } = this.state
+    const activeItem = this.state
 
     return (
-      <div>
-        <Menu pointing>
-          <Menu.Item name="home" active={activeItem === "home"} onClick={this.handleItemClick} />
-          <Menu.Item
-            name="messages"
-            active={activeItem === "messages"}
-            onClick={this.handleItemClick}
-          />
-          <Menu.Item
-            name="friends"
-            active={activeItem === "friends"}
-            onClick={this.handleItemClick}
-          />
-          <Menu.Menu position="right">
-            <Menu.Item>
-              <Input icon="search" placeholder="Search..." />
-            </Menu.Item>
-          </Menu.Menu>
-        </Menu>
+      <Menu>
+        <Menu.Item
+          name="menu1"
+          active={activeItem === "menu1"}
+          onClick={this.handleItemClick}
+        >
+          Menu1
+        </Menu.Item>
 
-        <Segment>
-          <img src="/images/wireframe/paragraph.png" />
-        </Segment>
-      </div>
+        <Menu.Item name="menu2" active={activeItem === "menu2"} onClick={this.handleItemClick}>
+          Menu2
+        </Menu.Item>
+
+        <Menu.Item
+          name="menu3"
+          active={activeItem === "menu3"}
+          onClick={this.handleItemClick}
+        >
+          menu3
+        </Menu.Item>
+      </Menu>
     )
   }
 }

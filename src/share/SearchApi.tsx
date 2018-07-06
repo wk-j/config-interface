@@ -5,6 +5,7 @@ type ContentResult = {
     path: string;
     content: string;
   }
+
 export class SearchApi {
 
     public getProjectNames() {
@@ -18,6 +19,7 @@ export class SearchApi {
     }
     public saveSettingContent(projectPath: string, projectContent: string) {
         axios.post("https://localhost:5001/api/search/SaveSettingContent", {
+        Path : projectPath,
         Content: projectContent
         })
     }
