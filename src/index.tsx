@@ -33,10 +33,10 @@ class App extends React.Component<{}, State> {
 
           </Grid.Column>
           <Grid.Row>
-          <Grid.Column width={15}>
-            <Segment>
-              <MenuV />
-            </Segment>
+            <Grid.Column width={15}>
+              <Segment>
+                <MenuV />
+              </Segment>
             </Grid.Column>
           </Grid.Row>
         </Grid>
