@@ -13,14 +13,14 @@ export default class MenuExampleBasic extends Component {
       <Menu>
         <Menu.Item
           name="menu1"
-          active={activeItem === "meni1"}
+          active={activeItem === "menu1"}
           onClick={this.handleItemClick}
         >
-          Editorials
+          Menu1
         </Menu.Item>
 
         <Menu.Item name="menu2" active={activeItem === "menu2"} onClick={this.handleItemClick}>
-          Reviews
+          Menu2
         </Menu.Item>
 
         <Menu.Item
@@ -28,7 +28,7 @@ export default class MenuExampleBasic extends Component {
           active={activeItem === "menu3"}
           onClick={this.handleItemClick}
         >
-          Upcoming Events
+          menu3
         </Menu.Item>
       </Menu>
     )

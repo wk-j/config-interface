@@ -5,13 +5,13 @@ import styled from "styled-components";
 
 import "semantic-ui-css/semantic.min.css"
 import MenuV from "./components/Menu";
-import searchApi from "./share/SearchApi"
+import { SearchApi } from "./share/searchApi";
 
 type State = {
   projectName: string
   projectPath: string
   projectContent: string
-  dropdownOption: string[]
+  dropdownOption: any[]
   fileName: string[]
   pathProject: string[]
 
@@ -29,9 +29,9 @@ class App extends React.Component<{}, State> {
       pathProject: []
     }
   }
-
+  private searchApi = new SearchApi();
   public componentDidMount() {
-    searchApi.getProjectNames().then(res => {
+    this.searchApi.getProjectNames().then(res => {
       // tslint:disable-next-line:no-console
       console.log("Project Name" + res.data)
       let options = [];
@@ -55,7 +55,7 @@ class App extends React.Component<{}, State> {
   //
   // _____________ดึงชื่อไฟล์Project_________________|
   private initProjectSettings(value: string) {
-    searchApi.getProjectSettings(value).then(response => {
+    this.searchApi.getProjectSettings(value).then(response => {
       // tslint:disable-next-line:no-console
       console.log("path : " + response.data)
       let pathProjects = [];
@@ -88,7 +88,7 @@ class App extends React.Component<{}, State> {
   //
   //
   private initSettingContent(value: string) {
-    searchApi.getSettingContent(value).then(response => {
+    this.searchApi.getSettingContent(value).then(response => {
       // tslint:disable-next-line:no-console
       console.log(response.data.content)
       this.setState({ projectContent: response.data.content })

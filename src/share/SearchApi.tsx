@@ -5,20 +5,22 @@ type ContentResult = {
     path: string;
     content: string;
   }
-export default {
 
-    getProjectNames() {
+export class SearchApi {
+
+    public getProjectNames() {
         return axios.get<string[]>(`https://localhost:5001/api/search/getProjectNames`)
-    },
-    getProjectSettings(projectName: string) {
+    }
+    public getProjectSettings(projectName: string) {
         return axios.get<string[]>(`https://localhost:5001/api/search/getProjectSettings/?projectName=${projectName}`)
-    },
-    getSettingContent(projectPath: string) {
+    }
+    public getSettingContent(projectPath: string) {
         return axios.get<ContentResult>(`https://localhost:5001/api/search/getSettingContent/?path=${projectPath}`)
-    },
-    saveSettingContent(projectPath: string, projectContent: string) {
+    }
+    public saveSettingContent(projectPath: string, projectContent: string) {
         axios.post("https://localhost:5001/api/search/SaveSettingContent", {
+        Path : projectPath,
         Content: projectContent
         })
-    },
+    }
 }
