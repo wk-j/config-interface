@@ -7,6 +7,8 @@ import "semantic-ui-css/semantic.min.css"
 import MenuV from "./components/Menu";
 import { SearchApi } from "./share/searchApi";
 
+
+
 type State = {
   projectName: string
   projectPath: string
@@ -137,6 +139,18 @@ class App extends React.Component<{}, State> {
   public render() {
     const { dropdownOption } = this.state
     const Wrapper = styled.section`padding: 4em;`;
+    const Box = styled.section`padding: 2em;`;
+    const Row = styled.div`
+    &::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+    `;
+    const Column = styled.div`
+    float: left;
+    width: 50%;
+    `;
     // _______________สร้างlist_____________|
     const listz = this.state.fileName.map((file) => (
       <List.Item onClick={this.selectFile.bind(this)} value={this.state.pathProject[this.findPath((file))]}>
@@ -149,8 +163,11 @@ class App extends React.Component<{}, State> {
     ));
     // ____________________________________|
     const DropdownProjectName = () => (
-      <Dropdown placeholder="Select Project..." fluid selection options={dropdownOption}
+      <Dropdown placeholder="Select Project..."  fluid selection options={dropdownOption}
         onChange={this.setValue.bind(this)} value={this.state.projectName} />
+    )
+    const ButtonSave = () => (
+      <Button  floated='right' value="Save" name="Save" right >Save</Button>
     )
 
     return (
@@ -163,24 +180,27 @@ class App extends React.Component<{}, State> {
             <Grid.Column width={15}>
               <Segment>
                 <MenuV />
+                <Row>
+                <Column>
+                <Box>
+                <h2>Select Project : </h2>
                 <DropdownProjectName />
                 <List divided relaxed>
                   {listz}
                 </List>
-                <TextArea autoHeight placeholder="Choose Project and File First" value={this.state.projectContent}
-                  style={{ width: 400 }} />
-              </Segment>
-              <Segment >
-                <h1>Show Data</h1>
-                projectname : {this.Showproject()}
+                </Box>
+                </Column>
+                <Column>
+                <Box>
+                  <h2>Content : </h2>
+                <TextArea placeholder="Choose Project and File First" value={this.state.projectContent}
+                  style={{ width: 400 , height: 300}} />
                 <br />
-                projectpath : {this.ShowPath()}
                 <br />
-                projectcontent : {this.ShowContent()}
-                <br />
-                filename : {this.ShowFile()}
-                <br />
-                path : {this.ShowPathz()}
+                <ButtonSave  />
+                </Box>
+                </Column>
+                </Row>
               </Segment>
             </Grid.Column>
           </Grid.Row>
