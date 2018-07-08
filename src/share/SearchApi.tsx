@@ -1,5 +1,4 @@
 import axios from "axios"
-import { getApiUrl } from "./Configuration"
 
 // ประกาศstate
 type ContentResult = {
@@ -8,21 +7,22 @@ type ContentResult = {
     content: string;
 }
 
-const url = getApiUrl();
-
 export class SearchApi {
+    constructor(private url: string) {
+
+    }
 
     public getProjectNames() {
-        return axios.get<string[]>(`${url}/api/search/getProjectNames`)
+        return axios.get<string[]>(`${this.url}/api/search/getProjectNames`)
     }
     public getProjectSettings(projectName: string) {
-        return axios.get<string[]>(`${url}/api/search/getProjectSettings/?projectName=${projectName}`)
+        return axios.get<string[]>(`${this.url}/api/search/getProjectSettings/?projectName=${projectName}`)
     }
     public getSettingContent(projectPath: string) {
-        return axios.get<ContentResult>(`${url}/api/search/getSettingContent/?path=${projectPath}`)
+        return axios.get<ContentResult>(`${this.url}/api/search/getSettingContent/?path=${projectPath}`)
     }
     public saveSettingContent(projectPath: string, projectContent: string) {
-        axios.post(`${url}/api/search/SaveSettingContent`, {
+        axios.post(`${this.url}/api/search/SaveSettingContent`, {
             path: projectPath,
             content: projectContent
         })
