@@ -5,13 +5,6 @@ import { Button, Dropdown, Form, Grid, List, Menu, Segment, TextArea } from "sem
 import styled from "styled-components"
 import { getApiUrl } from "../share/Configuration";
 import { SearchApi } from "../share/searchApi";
-import { ProjectList } from "../components/ProjectList"
-import { FileList } from "../components/FileList"
-import { FileContent } from "../components/FileContent"
-
-const LabelDiv = styled.div`
-  margin-bottom: 5px;
-`
 
 type State = {
   projectName: string
@@ -20,8 +13,13 @@ type State = {
   dropdownOption: any[]
   fileName: string[]
   pathProject: string[]
-  currentPath: string
+  currentPath: ""
+
 }
+
+const LabelDiv = styled.div`
+  margin-bottom: 5px;
+`
 
 const BodyDiv = styled.div`
   display: flex;
@@ -66,14 +64,12 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
     this.handleContentChange = this.handleContentChange.bind(this)
   }
 
-  private handleContentChange = (content) => {
-    this.setState({ projectContent: content.target.value })
+  public handleContentChange = (e) => {
+    this.setState({ projectContent: e.target.value })
   }
-
   public componentDidMount() {
     this.searchApi.getProjectNames().then(res => {
-      // tslint:disable-next-line:no-console
-      console.log("Project Name : " + res.data)
+      console.log("Project Name" + res.data)
       let options = [];
       res.data.map(x => {
         // เอาdata push เข้าไปใน option
@@ -126,7 +122,6 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       this.setState({ projectContent: response.data.content , projectPath: response.data.path })
     })
   }
-
   private initSaveSettingContent(path: string, content: string) {
     if (this.searchApi.saveSettingContent(path, content)) {
       console.log("ok")
@@ -156,11 +151,6 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
     return this.state.pathProject
   }
 
-  private showCurpath() {
-    return this.state.currentPath
-  }
-  // ______________________________________|
-
   public setValue(e, data) {
     this.setState({ projectName: data.value })
     this.setState({ projectPath: "" })
@@ -173,9 +163,6 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
     // __________ฟังก์ชั่นสำหรับการนำค่าในไฟลsetting____________|
     this.initSettingContent(data.value);
     this.setState({ projectContent: "" })
-    let index = this.state.pathProject.findIndex(x => x.indexOf(data) !== -1)
-    let curPath = this.state.pathProject[index]
-    this.setState({ currentPath: curPath })
   }
 
   // _________หาที่อยู่Index array pathProject________________|
@@ -188,6 +175,7 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
   //
   // ________________RENDER________________|
   public render() {
+    const { dropdownOption } = this.state
     // _______________สร้างlist_____________|
     const listz = this.state.fileName.map((file) => (
       <List.Item onClick={this.selectFile.bind(this)} value={this.state.pathProject[this.findPath((file))]}>
@@ -199,29 +187,41 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       </List.Item>
     ));
     // ____________________________________|
-    const ButtonSave = () => (
-      <Button floated="right" value="Save" name="Save" onClick={() => {this.initSaveSettingContent(this.state.currentPath, this.state.projectContent)}} >Save</Button>
+    const DropdownProjectName = ({ }) => (
+      <Dropdown placeholder="Select Project..." fluid selection options={dropdownOption}
+        onChange={this.setValue.bind(this)} value={this.state.projectName} />
     )
+    const ButtonSave = () => (
+      <Button floated="right" value="Save" name="Save" onClick={() => {this.initSaveSettingContent(this.state.projectPath, this.state.projectContent)}} >Save</Button>
+    )
+
     return (
       <BodyDiv style={this.props.style}>
         <LeftDiv>
-           <Segment>
-              projectname[now]  : {this.showproject()}
+        <Segment >
+              <h1>Show Data</h1>
+              projectname : {this.showproject()}
               <br />
-              projectpath[now]  : {this.showPath()}
+              projectpath : {this.showPath()}
               <br />
-              projectcontent[now]  : {this.showContent()}
+              projectcontent : {this.showContent()}
+              <br />
+              filename : {this.showFile()}
+              <br />
+              path : {this.showPathz()}
             </Segment>
-        <ProjectList />
-          <List divided relaxed>
+          <div>
+            <LabelDiv>Select Project</LabelDiv>
+          </div>
+          <DropdownProjectName />
+          <List animated divided relaxed>
             {listz}
           </List>
         </LeftDiv>
         <RigthDiv>
           <ContentDiv>
             <LabelDiv>Content</LabelDiv>
-            <TextArea placeholder="Choose Project and File First" value={this.state.projectContent}
-            style={{ width: "100%", height: "calc(70% - 30px)" }}
+            <TextArea placeholder="Choose Project and File First" value={this.state.projectContent} style={{ width: "100%", height: "calc(50% - 30px)" }} 
             onChange={this.handleContentChange}/>
           </ContentDiv>
           <div>
