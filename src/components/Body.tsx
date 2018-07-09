@@ -1,19 +1,19 @@
 import React, { CSSProperties } from "react"
 import ReactDOM from "react-dom"
-import { Button, Dropdown, Form, Grid, List, Menu, Segment, TextArea } from "semantic-ui-react"
+import { Button, Dropdown, Form, Grid, List, Menu, Segment, TextArea, Message, Transition, Dimmer } from "semantic-ui-react"
 
 import styled from "styled-components"
 import { getApiUrl } from "../share/Configuration";
 import { SearchApi } from "../share/searchApi";
 
 type State = {
+  // selectedFile: string
   projectName: string
   projectPath: string
   projectContent: string
   dropdownOption: any[]
   fileName: string[]
   pathProject: string[]
-  currentPath: ""
 
 }
 
@@ -31,19 +31,19 @@ const LeftDiv = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 5px;
+  padding: 10px;
 `
 
 const RigthDiv = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 3;
-  padding: 5px;
+  padding: 10px;
 `
 
 const ContentDiv = styled.div`
   flex-grow: 1;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 `
 
 export class Body extends React.Component<{ style: CSSProperties }, State> {
@@ -53,13 +53,13 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
   constructor(props) {
     super(props);
     this.state = {
+      // selectedFile: "",
       projectName: "",
       projectPath: "",
       projectContent: "",
       dropdownOption: [],
       fileName: [],
-      pathProject: [],
-      currentPath: ""
+      pathProject: []
     }
     this.handleContentChange = this.handleContentChange.bind(this)
   }
@@ -119,17 +119,17 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
   private initSettingContent(value: string) {
     this.searchApi.getSettingContent(value).then(response => {
       console.log(response.data.content)
-      this.setState({ projectContent: response.data.content , projectPath: response.data.path })
+      this.setState({ projectContent: response.data.content, projectPath: response.data.path })
     })
   }
   private initSaveSettingContent(path: string, content: string) {
     if (this.searchApi.saveSettingContent(path, content)) {
-      console.log("ok")
+      window.alert("SAVE!")
+      this.setState({ projectName: "", projectPath: "", projectContent: "", pathProject: [], fileName: [] })
     } else {
-      console.log("error")
+      window.alert("error")
     }
   }
-
   // __________ทดสอบแสดงชื่อโปรเจค__________|
   private showproject() {
     return this.state.projectName
@@ -163,6 +163,7 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
     // __________ฟังก์ชั่นสำหรับการนำค่าในไฟลsetting____________|
     this.initSettingContent(data.value);
     this.setState({ projectContent: "" })
+
   }
 
   // _________หาที่อยู่Index array pathProject________________|
@@ -171,17 +172,27 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
     let index = this.state.pathProject.findIndex(x => x.indexOf(file) !== -1)
     return index
   }
+  public handleListItemClick(event, data) {
+    console.log("list item clicked: " + data.value);
+  }
 
   //
   // ________________RENDER________________|
   public render() {
     const { dropdownOption } = this.state
+
+    let isSelected = (file) => {
+       return this.state.projectPath.indexOf(file) !== -1
+    }
+
     // _______________สร้างlist_____________|
     const listz = this.state.fileName.map((file) => (
-      <List.Item onClick={this.selectFile.bind(this)} value={this.state.pathProject[this.findPath((file))]}>
+      <List.Item active={isSelected(file)} onClick={this.selectFile.bind(this)} value={this.state.pathProject[this.findPath((file))]}>
         <List.Icon name="file" size="large" verticalAlign="middle" />
         <List.Content>
-          <List.Header as="a" >File Name : {file}</List.Header>
+          <List.Header as="a" >
+          File Name :{file} {isSelected(file)}
+          </List.Header>
           <List.Description as="a">{this.state.pathProject[this.findPath((file))]}</List.Description>
         </List.Content>
       </List.Item>
@@ -192,37 +203,26 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
         onChange={this.setValue.bind(this)} value={this.state.projectName} />
     )
     const ButtonSave = () => (
-      <Button floated="right" value="Save" name="Save" onClick={() => {this.initSaveSettingContent(this.state.projectPath, this.state.projectContent)}} >Save</Button>
+      <Button floated="right" value="Save" name="Save" onClick={() => { this.initSaveSettingContent(this.state.projectPath, this.state.projectContent) }} >Save</Button>
     )
 
     return (
       <BodyDiv style={this.props.style}>
         <LeftDiv>
-        <Segment >
-              <h1>Show Data</h1>
-              projectname : {this.showproject()}
-              <br />
-              projectpath : {this.showPath()}
-              <br />
-              projectcontent : {this.showContent()}
-              <br />
-              filename : {this.showFile()}
-              <br />
-              path : {this.showPathz()}
-            </Segment>
           <div>
             <LabelDiv>Select Project</LabelDiv>
           </div>
           <DropdownProjectName />
-          <List animated divided relaxed>
+          <List animated divided selection relaxed >
             {listz}
           </List>
         </LeftDiv>
         <RigthDiv>
           <ContentDiv>
             <LabelDiv>Content</LabelDiv>
-            <TextArea placeholder="Choose Project and File First" value={this.state.projectContent} style={{ width: "100%", height: "calc(50% - 30px)" }} 
-            onChange={this.handleContentChange}/>
+            <TextArea placeholder="Choose Project and File First" value={this.state.projectContent}
+              style={{ width: "100%", height: "calc(50% - 30px)" }}
+              onChange={this.handleContentChange} />
           </ContentDiv>
           <div>
             <ButtonSave />
