@@ -22,7 +22,7 @@ export class SearchApi {
         return axios.get<ContentResult>(`${this.url}/api/search/getSettingContent/?path=${projectPath}`)
     }
     public saveSettingContent(projectPath: string, projectContent: string) {
-        axios.post(`${this.url}/api/search/SaveSettingContent`, {
+        return axios.post(`${this.url}/api/search/SaveSettingContent`, {
             path: projectPath,
             content: projectContent
         })

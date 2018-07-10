@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "```bash npm install ```",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "highlightable": "^1.0.7"
+  },
   "devDependencies": {
     "@types/react": "^16.4.6",
     "@types/react-dom": "^16.0.6",
