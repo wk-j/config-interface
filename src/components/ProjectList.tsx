@@ -1,18 +1,27 @@
 import React, { CSSProperties } from "react"
 import { Dropdown } from "semantic-ui-react"
-import { Body } from "./Body"
-import { getApiUrl } from "../share/Configuration";
 import styled from "styled-components"
 
 const LabelDiv = styled.div`
   margin-bottom: 5px;
 `
-export class ProjectList extends React.Component<{ style?: CSSProperties }> {
-    public body = new Body(getApiUrl());
+type Props = {
+    projectName: string
+    dropdownOption: any[]
+    // tslint:disable-next-line:variable-name
+    onChange: (string) => void
+}
+export class ProjectList extends React.Component<Props> {
+    constructor(props) {
+        super(props)
+    }
+      public setValue(e, data) {
+        this.props.onChange(data.value)
+      }
     public render() {
         const DropdownProjectName = ({ }) => (
-            <Dropdown placeholder="Select Project..." fluid selection options={this.body.state.dropdownOption}
-              onChange={this.body.setValue.bind(this)} value={this.body.state.projectName} />
+            <Dropdown placeholder="Select ..." fluid selection options={this.props.dropdownOption}
+              onChange={this.setValue.bind(this)} value={this.props.projectName} />
           )
         return (
             <div>

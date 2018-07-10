@@ -1,10 +1,11 @@
 import React, { CSSProperties } from "react"
-import ReactDOM from "react-dom"
-import { Button, Dropdown, Form, Grid, List, Menu, Segment, TextArea, Message, Transition, Dimmer } from "semantic-ui-react"
-
+import { Button, Segment, TextArea } from "semantic-ui-react"
 import styled from "styled-components"
 import { getApiUrl } from "../share/Configuration";
 import { SearchApi } from "../share/searchApi";
+import { ProjectList } from "./ProjectList"
+import { FileList } from "./FileList"
+import { FileContent } from "./FileContent"
 
 type State = {
   // selectedFile: string
@@ -12,14 +13,10 @@ type State = {
   projectPath: string
   projectContent: string
   dropdownOption: any[]
-  fileName: string[]
   pathProject: string[]
+  fileName: string[]
 
 }
-
-const LabelDiv = styled.div`
-  margin-bottom: 5px;
-`
 
 const BodyDiv = styled.div`
   display: flex;
@@ -41,11 +38,6 @@ const RigthDiv = styled.div`
   padding: 10px;
 `
 
-const ContentDiv = styled.div`
-  flex-grow: 1;
-  margin-bottom: 10px;
-`
-
 export class Body extends React.Component<{ style: CSSProperties }, State> {
 
   private searchApi = new SearchApi(getApiUrl());
@@ -58,14 +50,9 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       projectPath: "",
       projectContent: "",
       dropdownOption: [],
-      fileName: [],
-      pathProject: []
+      pathProject: [],
+      fileName: []
     }
-    this.handleContentChange = this.handleContentChange.bind(this)
-  }
-
-  public handleContentChange = (e) => {
-    this.setState({ projectContent: e.target.value })
   }
   public componentDidMount() {
     this.searchApi.getProjectNames().then(res => {
@@ -80,24 +67,20 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
     })
   }
 
-  // _______________ตัวอย่างการตัดชื่อไฟล์_____________|
-  private GetFileNamez(value: string) {
-    let path = "/tmp/ProjectA/AppSettings.json";
-    let strArr: string[] = path.split("/");
-    return strArr[strArr.length - 1]
-  }
-
   // _____________ดึงชื่อไฟล์Project_________________|
-  private initProjectSettings(value: string) {
-    this.searchApi.getProjectSettings(value).then(response => {
-      console.log("path : " + response.data)
+  public initProjectSettings(name: string) {
+    this.searchApi.getProjectSettings(name).then(response => {
+
+      console.log("initProjectSettings");
       let pathProjects = [];
       response.data.map(x => {
         // เอาค่าpathเก็บไปไว้ในแอรแรย์ก่อย
         pathProjects.push(x);
       });
-      this.setState({ pathProject: pathProjects })
 
+      console.log("Path[ยังไม่เซต] : " + pathProjects)
+      this.setState({ pathProject: pathProjects })
+      console.log("Path : " + this.state.pathProject)
       // ____________ดึงชื่อไฟล์ตั้งค่าของproject____________|
       // เก็บไฟล์ไว้ในarrayชื่อไฟล์
       let fileNames = [];
@@ -110,24 +93,40 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
         arrayName = arrayFile[arrayFile.length - 1]
         fileNames.push(arrayName);
       });
-      console.log(fileNames)
+      console.log("FileName[ยังไม่เซต] : " + fileNames)
       this.setState({ fileName: fileNames })
+      console.log("FileName : " + this.state.fileName)
       // this.setState({fileName: fileNames})
     })
   }
 
-  private initSettingContent(value: string) {
+  public initSettingContent(value: string) {
     this.searchApi.getSettingContent(value).then(response => {
       console.log(response.data.content)
       this.setState({ projectContent: response.data.content, projectPath: response.data.path })
     })
   }
-  private initSaveSettingContent(path: string, content: string) {
-    if (this.searchApi.saveSettingContent(path, content)) {
-      window.alert("SAVE!")
-      this.setState({ projectName: "", projectPath: "", projectContent: "", pathProject: [], fileName: [] })
+
+  private initSaveSettingContent = (path: string, content: string) => {
+    console.log("initSaveSettingContent");
+    if (this.state.projectName === "") {
+      alert("Plese select project")
+    } else if (this.state.projectPath === "" || this.state.projectContent === "") {
+      alert("Plese select path")
     } else {
-      window.alert("error")
+    this.searchApi.saveSettingContent(path, content).then(res => {
+      if (res.data.success) {
+        alert("SAVE!")
+        console.log("SAVE!");
+        this.setState({
+          projectName: "", projectPath: "", projectContent: "", dropdownOption: [],
+          pathProject: [], fileName: []
+        })
+        this.componentDidMount()
+      } else {
+        alert("ERROR : " + Error)
+      }
+    })
     }
   }
   // __________ทดสอบแสดงชื่อโปรเจค__________|
@@ -143,90 +142,54 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
     return this.state.projectContent
   }
 
-  private showFile() {
-    return this.state.fileName
-  }
-
-  private showPathz() {
-    return this.state.pathProject
-  }
-
-  public setValue(e, data) {
-    this.setState({ projectName: data.value })
-    this.setState({ projectPath: "" })
-    this.setState({ projectContent: "" })
-    this.initProjectSettings(data.value)
-  }
-
-  public selectFile(e, data) {
-    this.setState({ projectPath: data.value })
-    // __________ฟังก์ชั่นสำหรับการนำค่าในไฟลsetting____________|
-    this.initSettingContent(data.value);
-    this.setState({ projectContent: "" })
-
-  }
-
   // _________หาที่อยู่Index array pathProject________________|
   //
-  public findPath(file: string) {
-    let index = this.state.pathProject.findIndex(x => x.indexOf(file) !== -1)
-    return index
-  }
-  public handleListItemClick(event, data) {
+
+  public handleListItemClick(data) {
     console.log("list item clicked: " + data.value);
   }
-
+  // โปรเจคเปลี่ยน
+  private onProjectChange = (project) => {
+    this.setState({
+      projectName: project,
+      projectContent: ""
+    })
+    console.log(project)
+    this.initProjectSettings(project)
+  }
+  // ไฟล์เปลี่ยน
+  private onFileChange = (file) => {
+    this.setState({
+      projectPath: file,
+      projectContent: ""
+    });
+    this.initSettingContent(file)
+  }
+  // ข้อความเปลี่ยน
+  private onContentChange = (content) => {
+    this.setState({
+      projectContent: content
+    });
+    console.log(content);
+    this.initSaveSettingContent(this.state.projectPath, content)
+  }
   //
   // ________________RENDER________________|
   public render() {
-    const { dropdownOption } = this.state
-
-    let isSelected = (file) => {
-       return this.state.projectPath.indexOf(file) !== -1
-    }
-
-    // _______________สร้างlist_____________|
-    const listz = this.state.fileName.map((file) => (
-      <List.Item active={isSelected(file)} onClick={this.selectFile.bind(this)} value={this.state.pathProject[this.findPath((file))]}>
-        <List.Icon name="file" size="large" verticalAlign="middle" />
-        <List.Content>
-          <List.Header as="a" >
-          File Name :{file} {isSelected(file)}
-          </List.Header>
-          <List.Description as="a">{this.state.pathProject[this.findPath((file))]}</List.Description>
-        </List.Content>
-      </List.Item>
-    ));
-    // ____________________________________|
-    const DropdownProjectName = ({ }) => (
-      <Dropdown placeholder="Select Project..." fluid selection options={dropdownOption}
-        onChange={this.setValue.bind(this)} value={this.state.projectName} />
-    )
-    const ButtonSave = () => (
-      <Button floated="right" value="Save" name="Save" onClick={() => { this.initSaveSettingContent(this.state.projectPath, this.state.projectContent) }} >Save</Button>
-    )
-
+    let { projectName } = this.state
+    let { projectPath } = this.state
+    let { dropdownOption } = this.state
+    let { fileName } = this.state
+    let { pathProject } = this.state
+    let { projectContent } = this.state
     return (
       <BodyDiv style={this.props.style}>
         <LeftDiv>
-          <div>
-            <LabelDiv>Select Project</LabelDiv>
-          </div>
-          <DropdownProjectName />
-          <List animated divided selection relaxed >
-            {listz}
-          </List>
+          <ProjectList projectName={projectName} dropdownOption={dropdownOption} onChange={this.onProjectChange} />
+          <FileList projectPath={projectPath} fileName={fileName} pathProject={pathProject} onChange={this.onFileChange} Name={projectName} />
         </LeftDiv>
         <RigthDiv>
-          <ContentDiv>
-            <LabelDiv>Content</LabelDiv>
-            <TextArea placeholder="Choose Project and File First" value={this.state.projectContent}
-              style={{ width: "100%", height: "calc(50% - 30px)" }}
-              onChange={this.handleContentChange} />
-          </ContentDiv>
-          <div>
-            <ButtonSave />
-          </div>
+          <FileContent ProjectContent={projectContent} onChange={this.onContentChange} />
         </RigthDiv>
       </BodyDiv>
     );
