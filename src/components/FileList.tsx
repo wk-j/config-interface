@@ -33,7 +33,7 @@ export class FileList extends React.Component<Props> {
                 <List.Icon name="file" size="large" verticalAlign="middle" />
                 <List.Content>
                     <List.Header as="a" >
-                        File Name :{file} {isSelected(file)}
+                       {file} {isSelected(file)}
                     </List.Header>
                     <List.Description as="a">{this.props.pathProject[this.findPath((file))]}</List.Description>
                 </List.Content>
@@ -46,3 +46,4 @@ export class FileList extends React.Component<Props> {
         )
     }
 }
+

@@ -20,7 +20,7 @@ export class ProjectList extends React.Component<Props> {
       }
     public render() {
         const DropdownProjectName = ({ }) => (
-            <Dropdown placeholder="Select ..." fluid selection options={this.props.dropdownOption}
+            <Dropdown   fluid selection options={this.props.dropdownOption}
               onChange={this.setValue.bind(this)} value={this.props.projectName} />
           )
         return (
