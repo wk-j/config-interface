@@ -6,6 +6,13 @@ type ContentResult = {
     path: string;
     content: string;
 }
+export type Node = {
+    id: number
+    name: string
+    isRoot: boolean
+    isFile: boolean
+    parent: number
+}
 
 export class SearchApi {
     constructor(private url: string) {
@@ -26,5 +33,11 @@ export class SearchApi {
             path: projectPath,
             content: projectContent
         })
+    }
+    public getFolderAll(projectPath: string) {
+        return axios.get<string>(`${this.url}/api/Search/GetFolderAll?Pathz=${projectPath}`)
+    }
+    public getNode(path: string) {
+        return axios.get<Node[]>(`${this.url}/api/Search/GetNodes?path=${path}`)
     }
 }

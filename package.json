@@ -4,12 +4,7 @@
   "description": "```bash npm install ```",
   "main": "index.js",
   "dependencies": {
-    "react-alert": "^4.0.4",
-    "react-alert-template-basic": "^1.0.0",
-    "react-highlight-words": "^0.11.0",
-    "react-highlighter": "^0.4.2",
-    "react-notifications": "^1.4.3",
-    "react-text-highlight": "^0.2.0"
+    "highlightable": "^1.0.7"
   },
   "devDependencies": {
     "@types/react": "^16.4.6",
