@@ -40,8 +40,13 @@ const RigthDiv = styled.div`
   flex-grow: 3;
   padding: 10px;
 `
+function getFileContent(projectName, fileName) {
+  return `Content of ${fileName}`
+}
 
-export class Body extends React.Component<{ style: CSSProperties }, State> {
+
+
+export class Body extends React.Component<{ style: CSSProperties },State> {
 
   private searchApi = new SearchApi(getApiUrl());
 
@@ -67,6 +72,11 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       }
 
     }
+    this.handleContentChange = this.handleContentChange.bind(this)
+  }
+
+  public handleContentChange = (e) => {
+    this.setState({ projectContent: e.target.value })
   }
 
   public componentDidMount() {
@@ -85,7 +95,7 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       this.defaultValue()
     })
   }
-
+  
   private defaultValue() {
     this.searchApi.getProjectNames().then(res => {
       console.log("ProjectName : " + res.data)
@@ -93,7 +103,9 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       res.data.map(x => {
         name.push(x)
       })
+
       this.setState({ projectName: name[0] })
+      
       this.initProjectSettings(name[0])
     })
   }
@@ -146,6 +158,7 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
 
         // this.setState({ subParentNames: Response.data })
       })*/
+
       // ____________ดึงชื่อไฟล์ตั้งค่าของproject____________|
       // เก็บไฟล์ไว้ในarrayชื่อไฟล์
       let fileNames = pathProjects.map(x => {
@@ -161,14 +174,12 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       console.log("FileName : " + this.state.fileName)
     })
   }
-
   public initSettingContent(value: string) {
     this.searchApi.getSettingContent(value).then(response => {
       console.log(response.data.content)
       this.setState({ projectContent: response.data.content, projectPath: response.data.path })
     })
   }
-
   private initSaveSettingContent = (path: string, content: string) => {
     console.log("initSaveSettingContent");
     if (!this.state.projectName) {
@@ -181,10 +192,12 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       if (res.data.success) {
         alert("SAVE!")
         console.log("SAVE!");
+
       } else {
         alert("ERROR : " + Error)
       }
     })
+
   }
 
   // โปรเจคเปลี่ยน
@@ -233,8 +246,10 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
   //
   // ________________RENDER________________|
   public render() {
+
     let { projectName, projectPath, dropdownOption, fileName
       , pathProject, projectContent, subParentNames } = this.state
+
     return (
       <BodyDiv style={this.props.style}>
         <LeftDiv>
@@ -242,10 +257,13 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
           <FileList isSelected={this.isSelected} onSelect={this.onSelect} nodes={this.state.nodes} folder={this.getRoot()}
              projectPath={projectPath} fileName={fileName} pathProject={pathProject}/>
         </LeftDiv>
+
         <RigthDiv>
           <FileContent ProjectContent={projectContent} onChange={this.onContentChange} />
         </RigthDiv>
       </BodyDiv>
+              
+
     );
   }
 }

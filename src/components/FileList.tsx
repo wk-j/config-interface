@@ -49,6 +49,7 @@ export class FileList extends React.Component<Props> {
                 <List.Content>
                     <List.Header>
                         {this.props.folder.name}
+
                     </List.Header>
                     <List.Description>Folder</List.Description>
                 </List.Content>
@@ -68,3 +69,4 @@ export class FileList extends React.Component<Props> {
         )
     }
 }
+
