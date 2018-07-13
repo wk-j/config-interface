@@ -1,11 +1,11 @@
 import React, { CSSProperties } from "react"
-import { Button, Segment, TextArea } from "semantic-ui-react"
 import styled from "styled-components"
 import { getApiUrl } from "../share/Configuration";
-import { SearchApi } from "../share/searchApi";
+import { SearchApi, Node } from "../share/searchApi";
 import { ProjectList } from "./ProjectList"
 import { FileList } from "./FileList"
 import { FileContent } from "./FileContent"
+import { List } from "semantic-ui-react"
 
 type State = {
   // selectedFile: string
@@ -15,7 +15,10 @@ type State = {
   dropdownOption: any[]
   pathProject: string[]
   fileName: string[]
-
+  subParentNames: string
+  treeJson: string
+  nodes: Node[]
+  selectedNode: Node
 }
 
 const BodyDiv = styled.div`
@@ -56,7 +59,18 @@ export class Body extends React.Component<{ style: CSSProperties },State> {
       projectContent: "",
       dropdownOption: [],
       pathProject: [],
-      fileName: []
+      fileName: [],
+      subParentNames: "",
+      treeJson: "",
+      nodes: [],
+      selectedNode: {
+        name: "",
+        id: 0,
+        isRoot: true,
+        parent: 0,
+        isFile: false
+      }
+
     }
     this.handleContentChange = this.handleContentChange.bind(this)
   }
@@ -64,7 +78,6 @@ export class Body extends React.Component<{ style: CSSProperties },State> {
   public handleContentChange = (e) => {
     this.setState({ projectContent: e.target.value })
   }
-
 
   public componentDidMount() {
     this.searchApi.getProjectNames().then(res => {
@@ -82,6 +95,7 @@ export class Body extends React.Component<{ style: CSSProperties },State> {
       this.defaultValue()
     })
   }
+  
   private defaultValue() {
     this.searchApi.getProjectNames().then(res => {
       console.log("ProjectName : " + res.data)
@@ -89,10 +103,29 @@ export class Body extends React.Component<{ style: CSSProperties },State> {
       res.data.map(x => {
         name.push(x)
       })
-      this.setState({projectName: name[0]})
+
+      this.setState({ projectName: name[0] })
+      
       this.initProjectSettings(name[0])
     })
   }
+
+  private getRoot = (): Node => {
+    if (this.state.nodes.length) {
+      return this.state.nodes.filter(x => x.isRoot)[0];
+    } else {
+      return {
+        name: "Loading ...",
+        isRoot: true,
+        isFile: false,
+        id: 0,
+        parent: 0
+      }
+    }
+  }
+
+  // tslint:disable-next-line:no-unused-expression
+  public isSelected = (node) => this.state.selectedNode === node;
 
   // _____________ดึงชื่อไฟล์Project_________________|
   public initProjectSettings(name: string) {
@@ -100,6 +133,8 @@ export class Body extends React.Component<{ style: CSSProperties },State> {
 
       console.log("initProjectSettings");
       let pathProjects = [];
+      let path = response.data
+      console.log("P: " + path)
       response.data.map(x => {
         // เอาค่าpathเก็บไปไว้ในแอรแรย์ก่อย
         pathProjects.push(x);
@@ -108,24 +143,35 @@ export class Body extends React.Component<{ style: CSSProperties },State> {
       console.log("Path[ยังไม่เซต] : " + pathProjects)
       this.setState({ pathProject: pathProjects })
       console.log("Path : " + this.state.pathProject)
-      this.setState({projectPath: pathProjects[0]})
+      this.setState({ projectPath: pathProjects[0] })
       this.initSettingContent(pathProjects[0])
+      this.searchApi.getNode(this.state.projectPath).then(rs => {
+        this.setState({ nodes: rs.data })
+        console.log(this.state.nodes)
+      })
+      /*
+      this.searchApi.getFolderAll(this.state.projectPath).then(res => {
+        let obj = res.data;
+        console.log(res.data)
+        // console.log("subfolder : " + JSON.stringify(obj))
+        // this.setState({treeJson: JSON.stringify(obj)})
+
+        // this.setState({ subParentNames: Response.data })
+      })*/
+
       // ____________ดึงชื่อไฟล์ตั้งค่าของproject____________|
       // เก็บไฟล์ไว้ในarrayชื่อไฟล์
-      let fileNames = [];
-      pathProjects.map(x => {
+      let fileNames = pathProjects.map(x => {
         // เอาค่าpathเก็บไปไว้ในแอรแรย์ก่อย
-        let arrayFile = [];
-        arrayFile = x.split("/");
+        let arrayFile = x.split("/");
         // ชื่อไฟล์ที่ตัดเอา/ออกแล้ว
-        let arrayName = [];
-        arrayName = arrayFile[arrayFile.length - 1]
-        fileNames.push(arrayName);
+        // let arrayName = arrayFile[arrayFile.length - 1]
+        let arrayName = arrayFile.pop()
+        return arrayName;
       });
       console.log("FileName[ยังไม่เซต] : " + fileNames)
       this.setState({ fileName: fileNames })
       console.log("FileName : " + this.state.fileName)
-      // this.setState({fileName: fileNames})
     })
   }
   public initSettingContent(value: string) {
@@ -136,56 +182,58 @@ export class Body extends React.Component<{ style: CSSProperties },State> {
   }
   private initSaveSettingContent = (path: string, content: string) => {
     console.log("initSaveSettingContent");
-    if (this.state.projectName === "") {
+    if (!this.state.projectName) {
       alert("Plese select project")
-    } else if (this.state.projectPath === "" || this.state.projectContent === "") {
+    }
+    if (!this.state.projectPath || !this.state.projectContent) {
       alert("Plese select path")
-    } else {
+    }
     this.searchApi.saveSettingContent(path, content).then(res => {
       if (res.data.success) {
         alert("SAVE!")
         console.log("SAVE!");
 
-        this.componentDidMount()
       } else {
         alert("ERROR : " + Error)
       }
     })
-    }
-  }
-  // __________ทดสอบแสดงชื่อโปรเจค__________|
-
-
-  public setValue(e, data) {
-    this.setState({ projectName: data.value })
-    this.setState({ projectPath: "" })
-    this.setState({ projectContent: "" })
-  }
-
-  public selectFile(e,data) {
-    this.setState({ projectPath: data.value })
-    // __________ฟังก์ชั่นสำหรับการนำค่าในไฟลsetting____________|
-    this.initSettingContent(data.value);
-    this.setState({ projectContent: "" })
 
   }
-    // โปรเจคเปลี่ยน
-    private onProjectChange = (project) => {
-      this.setState({
-        projectName: project,
-        projectContent: ""
-      })
-      console.log(project)
-      this.initProjectSettings(project)
+
+  // โปรเจคเปลี่ยน
+  private onProjectChange = (project) => {
+    this.setState({
+      projectName: project,
+      projectContent: ""
+    })
+    console.log(project)
+    this.initProjectSettings(project)
+  }
+
+  // ไฟล์เปลี่ยน
+  private onFileChange = (file) => {
+    this.setState({
+      projectPath: file,
+      projectContent: ""
+    });
+    this.initSettingContent(file)
+  }
+
+  private onSelect = (node) => {
+    //
+    let nameFile = node.name;
+    let index = this.state.pathProject.findIndex(x => x.indexOf(nameFile) !== -1)
+    let pathFile = this.state.pathProject[index]
+
+    this.setState({
+        selectedNode: node,
+        projectPath: pathFile
+    })
+    this.initSettingContent(pathFile)
+    console.log(this.state.projectPath)
+    console.log(this.state.pathProject)
     }
-    // ไฟล์เปลี่ยน
-    private onFileChange = (file) => {
-      this.setState({
-        projectPath: file,
-        projectContent: ""
-      });
-      this.initSettingContent(file)
-    }
+
   // ข้อความเปลี่ยน
   private onContentChange = (content) => {
     this.setState({
@@ -194,21 +242,20 @@ export class Body extends React.Component<{ style: CSSProperties },State> {
     console.log(content);
     this.initSaveSettingContent(this.state.projectPath, content)
   }
+
   //
   // ________________RENDER________________|
   public render() {
-    let { projectName } = this.state
-    let { projectPath } = this.state
-    let { dropdownOption } = this.state
-    let { fileName } = this.state
-    let { pathProject } = this.state
-    let { projectContent } = this.state
+
+    let { projectName, projectPath, dropdownOption, fileName
+      , pathProject, projectContent, subParentNames } = this.state
 
     return (
       <BodyDiv style={this.props.style}>
         <LeftDiv>
           <ProjectList projectName={projectName} dropdownOption={dropdownOption} onChange={this.onProjectChange} />
-          <FileList projectPath={projectPath} fileName={fileName} pathProject={pathProject} onChange={this.onFileChange} Name={projectName} />
+          <FileList isSelected={this.isSelected} onSelect={this.onSelect} nodes={this.state.nodes} folder={this.getRoot()}
+             projectPath={projectPath} fileName={fileName} pathProject={pathProject}/>
         </LeftDiv>
 
         <RigthDiv>

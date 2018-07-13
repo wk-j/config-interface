@@ -24,7 +24,7 @@ export class FileContent extends React.Component<Props, State> {
         this.state = {
             projectContent: props.projectContent
         }
-        this.handleContentChange = this.handleContentChange.bind(this)
+        this.handleContentChange = this.handleContentChange
     }
     public handleContentChange = (e) => {
         this.setState({ projectContent: e.target.value })
@@ -45,7 +45,7 @@ export class FileContent extends React.Component<Props, State> {
             <div>
             <ContentDiv>
                 <LabelDiv>Content</LabelDiv>
-                <TextArea placeholder="Choose Project and File First" value={this.state.projectContent}
+                <TextArea value={this.state.projectContent}
                     style={{ width: "100%", height: "calc(50% - 30px)" }}
                     onChange={this.handleContentChange} />
             </ContentDiv>
