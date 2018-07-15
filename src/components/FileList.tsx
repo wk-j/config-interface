@@ -69,4 +69,3 @@ export class FileList extends React.Component<Props> {
         )
     }
 }
-
