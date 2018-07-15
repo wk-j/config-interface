@@ -4,6 +4,11 @@ import styled from "styled-components"
 const FooterDiv = styled.div`
     background: lightgrey;
     padding: 5px;
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 30px;
+    bottom: 0
 `
 
 export class Footer extends React.Component<{ style?: CSSProperties }> {
