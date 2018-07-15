@@ -5,7 +5,6 @@ import { SearchApi, Node } from "../share/searchApi";
 import { ProjectList } from "./ProjectList"
 import { FileList } from "./FileList"
 import { FileContent } from "./FileContent"
-import { List } from "semantic-ui-react"
 
 type State = {
   // selectedFile: string
@@ -117,18 +116,21 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       console.log("initProjectSettings");
       let pathProjects = [];
       pathProjects = response.data.map(x => x);
-
       console.log("Path[ยังไม่เซต] : " + pathProjects)
       this.setState({ pathProject: pathProjects })
       console.log("Path : " + this.state.pathProject)
       this.setState({ projectPath: pathProjects[0] })
+      console.log("projectPath : " + this.state.projectPath)
       this.initSettingContent(pathProjects[0])
-      this.searchApi.getNode(this.state.projectPath).then(rs => {
+      let strArr: string[] = pathProjects[0].split("/")
+      console.log(strArr)
+      let dePath = "/" + strArr[1] + "/" + strArr[2]
+      this.searchApi.getNode(dePath).then(rs => {
         this.setState({ nodes: rs.data })
         console.log(this.state.nodes)
       })
 
-      let filename2 = this.state.nodes.map (x => x.name)
+      let filename2 = this.state.nodes.map(x => x.name)
       console.log("ทดสอย : " + filename2)
       this.setState({ fileName: filename2 })
       console.log("FileName : " + this.state.fileName)
@@ -184,13 +186,13 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
     let pathFile = this.state.pathProject[index]
 
     this.setState({
-        selectedNode: node,
-        projectPath: pathFile
+      selectedNode: node,
+      projectPath: pathFile
     })
     this.initSettingContent(pathFile)
     console.log(this.state.projectPath)
     console.log(this.state.pathProject)
-    }
+  }
 
   private onContentChange = (content) => {
     this.setState({
@@ -208,7 +210,7 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
         <LeftDiv>
           <ProjectList projectName={projectName} dropdownOption={dropdownOption} onChange={this.onProjectChange} />
           <FileList isSelected={this.isSelected} onSelect={this.onSelect} nodes={this.state.nodes} folder={this.getRoot()}
-             projectPath={projectPath} fileName={fileName} pathProject={pathProject}/>
+            projectPath={projectPath} fileName={fileName} pathProject={pathProject} />
         </LeftDiv>
         <RigthDiv>
           <FileContent ProjectContent={projectContent} onChange={this.onContentChange} />
