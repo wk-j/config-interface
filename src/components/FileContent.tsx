@@ -2,6 +2,7 @@ import React from "react"
 import { TextArea, Button } from "semantic-ui-react"
 import MonacoEditor from "react-monaco-editor";
 import styled from "styled-components"
+import { Header, Icon, Segment } from "semantic-ui-react"
 
 const LabelDiv = styled.div`
   margin-bottom: 5px;
@@ -10,6 +11,7 @@ const LabelDiv = styled.div`
 const ContentDiv = styled.div`
   flex-grow: 1;
   margin-bottom: 10px;
+  display: block;
 `
 type Props = {
     ProjectContent: string
@@ -40,20 +42,26 @@ export class FileContent extends React.Component<Props, State> {
     }
     public render() {
         const ButtonSave = () => (
-            <Button floated="right" value="Save" name="Save" onClick={this.onSave} >Save</Button>
+            <Button animated icon labelPosition="left" color="green" floated="right" value="Save" name="Save" onClick={this.onSave}>
+                <Button.Content visible><Icon name="save" /> Save</Button.Content>
+                <Button.Content hidden><Icon name="check" />Confirm</Button.Content>
+            </Button>
         )
-
         const options = {
             minimap: { enabled: false }
         } as any;
-
         return (
             <div>
-                <ContentDiv>
-                    <LabelDiv>Content</LabelDiv>
-                    <MonacoEditor options={options} language="json" width="100%" height="400" theme="vs-dark"
-                        value={this.state.projectContent} onChange={this.handleContentChange} />
-                </ContentDiv>
+                <Segment inverted color="teal" secondary>
+                    <ContentDiv>
+                        <Header as="h3">
+                            <Icon name="edit" />
+                            <Header.Content>Content</Header.Content>
+                        </Header>
+                        <MonacoEditor options={options} language="json" width="130%" height="350" theme="vs-light"
+                            value={this.state.projectContent} onChange={this.handleContentChange} />
+                    </ContentDiv>
+                </Segment>
                 <div>
                     <ButtonSave />
                 </div>

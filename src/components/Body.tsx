@@ -5,6 +5,7 @@ import { SearchApi, Node } from "../share/searchApi";
 import { ProjectList } from "./ProjectList"
 import { FileList } from "./FileList"
 import { FileContent } from "./FileContent"
+import { Segment } from "../../node_modules/semantic-ui-react";
 
 type State = {
   // selectedFile: string
@@ -19,26 +20,33 @@ type State = {
   selectedNode: Node
 }
 
+const Rightfix = styled.div`
+    padding: 0px;
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 40px;
+    bottom: 0
+`
+
 const BodyDiv = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 10px;
 `
 
 const LeftDiv = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 5px;
+  padding: 15px;
+  width: 30%;
 `
 
 const RigthDiv = styled.div`
-
   display: block;
   flex-direction: column;
   flex-grow: 3;
-  padding: 10px;
-  Right: 0;
+  padding: 20px;
 `
 
 export class Body extends React.Component<{ style: CSSProperties }, State> {
@@ -75,7 +83,7 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       let name = []
       res.data.map(x => {
         // เอาdata push เข้าไปใน option
-        options.push({ value: x, text: x })
+        options.push({ value: x, text: x , icon: "folder"})
         name.push(x)
       });
       this.setState({ dropdownOption: options })
@@ -189,9 +197,11 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
     return (
       <BodyDiv style={this.props.style}>
         <LeftDiv>
+        <Segment inverted color="teal" tertiary>
           <ProjectList projectName={projectName} dropdownOption={dropdownOption} onChange={this.onProjectChange} />
           <FileList isSelected={this.isSelected} onSelect={this.onSelect} nodes={this.state.nodes} folder={this.getRoot()}
             projectPath={projectPath} fileName={fileName} pathProject={pathProject} />
+            </Segment>
         </LeftDiv>
         <RigthDiv>
           <FileContent ProjectContent={projectContent} onChange={this.onContentChange} />
