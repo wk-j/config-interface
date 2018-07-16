@@ -42,11 +42,16 @@ export class FileContent extends React.Component<Props, State> {
         const ButtonSave = () => (
             <Button floated="right" value="Save" name="Save" onClick={this.onSave} >Save</Button>
         )
+
+        const options = {
+            minimap: { enabled: false }
+        } as any;
+
         return (
             <div>
                 <ContentDiv>
                     <LabelDiv>Content</LabelDiv>
-                    <MonacoEditor language="json" width="120%" height="400" theme="vs-dark"
+                    <MonacoEditor options={options} language="json" width="100%" height="400" theme="vs-dark"
                         value={this.state.projectContent} onChange={this.handleContentChange} />
                 </ContentDiv>
                 <div>
