@@ -31,7 +31,7 @@ export class File extends React.Component<FileProps> {
             return this.props.projectPath.indexOf(select) !== -1
         }
         return (
-            <List.Item active={isSelected(this.props.file.name)} onClick={this.onClick(this.props.file)} >
+            <List.Item active={isSelected(this.props.file.pathFile)} onClick={this.onClick(this.props.file)} >
             <List.Icon name="file" size="large" verticalAlign="middle" />
             <List.Content>
                 <List.Header as="a" >

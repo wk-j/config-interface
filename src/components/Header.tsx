@@ -5,7 +5,7 @@ export class Header extends React.Component<{ style?: CSSProperties }> {
     public render() {
         return (
             <div style={this.props.style}>
-                <Menu pointing>
+                <Menu pointing inverted>
                     <Menu.Item name="configEditor" />
                 </Menu>
             </div>

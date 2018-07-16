@@ -1,7 +1,7 @@
 import React from "react"
 import { TextArea, Button } from "semantic-ui-react"
+import MonacoEditor from "react-monaco-editor";
 import styled from "styled-components"
-import style from "css"
 
 const LabelDiv = styled.div`
   margin-bottom: 5px;
@@ -27,9 +27,9 @@ export class FileContent extends React.Component<Props, State> {
         }
         this.handleContentChange = this.handleContentChange
     }
-    public handleContentChange = (e) => {
-        this.setState({ projectContent: e.target.value })
-      }
+    public handleContentChange = (data) => {
+        this.setState({ projectContent: data })
+    }
     public componentWillReceiveProps(props: Props) {
         this.state = {
             projectContent: props.ProjectContent
@@ -41,18 +41,17 @@ export class FileContent extends React.Component<Props, State> {
     public render() {
         const ButtonSave = () => (
             <Button floated="right" value="Save" name="Save" onClick={this.onSave} >Save</Button>
-          )
+        )
         return (
             <div>
-            <ContentDiv>
-                <LabelDiv>Content</LabelDiv>
-                <TextArea autoheight value={this.state.projectContent}
-                    style={{ minHeight: 300, width: "100%" }}
-                    onChange={this.handleContentChange} />
-            </ContentDiv>
-            <div>
-                <ButtonSave />
-            </div>
+                <ContentDiv>
+                    <LabelDiv>Content</LabelDiv>
+                    <MonacoEditor language="json" width="120%" height="400" theme="vs-dark"
+                        value={this.state.projectContent} onChange={this.handleContentChange} />
+                </ContentDiv>
+                <div>
+                    <ButtonSave />
+                </div>
             </div>
         )
     }

@@ -14,7 +14,6 @@ type State = {
   dropdownOption: any[]
   pathProject: string[]
   fileName: string[]
-  subParentNames: string
   treeJson: string
   nodes: Node[]
   selectedNode: Node
@@ -23,21 +22,23 @@ type State = {
 const BodyDiv = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 20px;
+  padding: 10px;
 `
 
 const LeftDiv = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 10px;
+  padding: 5px;
 `
 
 const RigthDiv = styled.div`
-  display: flex;
+
+  display: block;
   flex-direction: column;
   flex-grow: 3;
   padding: 10px;
+  Right: 0;
 `
 
 export class Body extends React.Component<{ style: CSSProperties }, State> {
@@ -54,7 +55,6 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       dropdownOption: [],
       pathProject: [],
       fileName: [],
-      subParentNames: "",
       treeJson: "",
       nodes: [],
       selectedNode: {
@@ -62,7 +62,8 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
         id: 0,
         isRoot: true,
         parent: 0,
-        isFile: false
+        isFile: false,
+        pathFile: ""
       }
 
     }
@@ -70,7 +71,6 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
 
   public componentDidMount() {
     this.searchApi.getProjectNames().then(res => {
-      console.log("ProjectName : " + res.data)
       let options = []
       let name = []
       res.data.map(x => {
@@ -80,14 +80,12 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       });
       this.setState({ dropdownOption: options })
       // ได้ค่าโปรเจคทั้งหมดมาเก็บในoption
-      // this.initSettingContent()
       this.defaultValue()
     })
   }
 
   private defaultValue() {
     this.searchApi.getProjectNames().then(res => {
-      console.log("ProjectName : " + res.data)
       let name = res.data.map(x => x)
       this.setState({ projectName: name[0] })
       this.initProjectSettings(name[0])
@@ -103,7 +101,8 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
         isRoot: true,
         isFile: false,
         id: 0,
-        parent: 0
+        parent: 0,
+        pathFile: ""
       }
     }
   }
@@ -113,39 +112,29 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
   public initProjectSettings(name: string) {
     this.searchApi.getProjectSettings(name).then(response => {
 
-      console.log("initProjectSettings");
       let pathProjects = [];
       pathProjects = response.data.map(x => x);
-      console.log("Path[ยังไม่เซต] : " + pathProjects)
       this.setState({ pathProject: pathProjects })
-      console.log("Path : " + this.state.pathProject)
       this.setState({ projectPath: pathProjects[0] })
-      console.log("projectPath : " + this.state.projectPath)
       this.initSettingContent(pathProjects[0])
       let strArr: string[] = pathProjects[0].split("/")
-      console.log(strArr)
       let dePath = "/" + strArr[1] + "/" + strArr[2]
       this.searchApi.getNode(dePath).then(rs => {
         this.setState({ nodes: rs.data })
-        console.log(this.state.nodes)
       })
 
       let filename2 = this.state.nodes.map(x => x.name)
-      console.log("ทดสอย : " + filename2)
       this.setState({ fileName: filename2 })
-      console.log("FileName : " + this.state.fileName)
     })
   }
 
   public initSettingContent(value: string) {
     this.searchApi.getSettingContent(value).then(response => {
-      console.log(response.data.content)
       this.setState({ projectContent: response.data.content, projectPath: response.data.path })
     })
   }
 
   private initSaveSettingContent = (path: string, content: string) => {
-    console.log("initSaveSettingContent");
     if (!this.state.projectName) {
       alert("Plese select project")
     }
@@ -167,7 +156,6 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       projectName: project,
       projectContent: ""
     })
-    console.log(project)
     this.initProjectSettings(project)
   }
 
@@ -180,31 +168,24 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
   }
 
   private onSelect = (node) => {
-    //
-    let nameFile = node.name;
-    let index = this.state.pathProject.findIndex(x => x.indexOf(nameFile) !== -1)
-    let pathFile = this.state.pathProject[index]
-
+    let pathFile = node.pathFile
     this.setState({
       selectedNode: node,
       projectPath: pathFile
     })
     this.initSettingContent(pathFile)
-    console.log(this.state.projectPath)
-    console.log(this.state.pathProject)
   }
 
   private onContentChange = (content) => {
     this.setState({
       projectContent: content
     });
-    console.log(content);
     this.initSaveSettingContent(this.state.projectPath, content)
   }
 
   public render() {
     let { projectName, projectPath, dropdownOption, fileName
-      , pathProject, projectContent, subParentNames } = this.state
+      , pathProject, projectContent } = this.state
     return (
       <BodyDiv style={this.props.style}>
         <LeftDiv>

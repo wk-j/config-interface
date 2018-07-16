@@ -12,6 +12,7 @@ export type Node = {
     isRoot: boolean
     isFile: boolean
     parent: number
+    pathFile: string
 }
 
 export class SearchApi {
