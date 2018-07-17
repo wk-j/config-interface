@@ -4,14 +4,12 @@ import styled from "styled-components"
 import { Footer } from "./components/Footer"
 import { Header } from "./components/Header"
 import { Body } from "./components/Body"
-
 import "semantic-ui-css/semantic.min.css"
 import "./css/style.css"
 
 const ContainerDiv = styled.div`
     display: block;
     flex-direction: column;
-    background-image: url('http://shmector.com/_ph/17/990955453.png');
 `
 
 export class App extends React.Component {
@@ -19,7 +17,7 @@ export class App extends React.Component {
         return (
             <ContainerDiv>
                 <Header />
-                <Body style={{padding: "20px", alignSelf: "center", minWidth: "1000px", flex: 1 }} />
+                <Body style={{height: "100%", padding: "20px", alignSelf: "center", minWidth: "1000px", flex: 1 }} />
                 <Footer style={{ justifyContent: "center", display: "flex" }} />
             </ContainerDiv>
         )

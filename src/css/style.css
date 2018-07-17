@@ -3,7 +3,13 @@ textarea {
     padding: 10px;
 }
 
-body {
-    padding: 0px;
-    margin: 0px;
+body { 
+        background-image: url(http://shmector.com/_ph/17/990955453.png) ;
+        background-position: center center;
+        background-repeat:  no-repeat;
+        background-attachment: fixed;
+        background-size:  cover;
+        background-color: #999;
+
+
 }
