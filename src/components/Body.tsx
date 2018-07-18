@@ -6,6 +6,13 @@ import { ProjectList } from "./ProjectList"
 import { FileList } from "./FileList"
 import { FileContent } from "./FileContent"
 import { Segment } from "../../node_modules/semantic-ui-react";
+import "../css/Body.css"
+
+type Props = {
+  styleR: string
+  styleL: string
+  style: CSSProperties
+}
 
 type State = {
   // selectedFile: string
@@ -49,7 +56,7 @@ const RigthDiv = styled.div`
   padding: 20px;
 `
 
-export class Body extends React.Component<{ style: CSSProperties }, State> {
+export class Body extends React.Component<Props, State> {
 
   private searchApi = new SearchApi(getApiUrl());
 
@@ -73,7 +80,6 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
         isFile: false,
         pathFile: ""
       }
-
     }
   }
 
@@ -83,7 +89,7 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       let name = []
       res.data.map(x => {
         // เอาdata push เข้าไปใน option
-        options.push({ value: x, text: x , icon: "folder"})
+        options.push({ value: x, text: x, icon: "folder" })
         name.push(x)
       });
       this.setState({ dropdownOption: options })
@@ -196,14 +202,14 @@ export class Body extends React.Component<{ style: CSSProperties }, State> {
       , pathProject, projectContent } = this.state
     return (
       <BodyDiv style={this.props.style}>
-        <LeftDiv>
-        <Segment inverted color="teal" tertiary>
-          <ProjectList projectName={projectName} dropdownOption={dropdownOption} onChange={this.onProjectChange} />
-          <FileList isSelected={this.isSelected} onSelect={this.onSelect} nodes={this.state.nodes} folder={this.getRoot()}
-            projectPath={projectPath} fileName={fileName} pathProject={pathProject} />
-            </Segment>
+        <LeftDiv className={this.props.styleL}>
+          <Segment inverted color="teal" tertiary>
+            <ProjectList projectName={projectName} dropdownOption={dropdownOption} onChange={this.onProjectChange} />
+            <FileList isSelected={this.isSelected} onSelect={this.onSelect} nodes={this.state.nodes} folder={this.getRoot()}
+              projectPath={projectPath} fileName={fileName} pathProject={pathProject} />
+          </Segment>
         </LeftDiv>
-        <RigthDiv>
+        <RigthDiv className={this.props.styleR}>
           <FileContent ProjectContent={projectContent} onChange={this.onContentChange} />
         </RigthDiv>
       </BodyDiv>
