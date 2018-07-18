@@ -18,7 +18,7 @@ const ContainerDiv = styled.div`
     flex-direction: column;
 `
 
-export class App extends React.Component<{ style: CSSProperties }, State> {
+export class App extends React.Component<{}, State> {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,29 +30,29 @@ export class App extends React.Component<{ style: CSSProperties }, State> {
     public onLogin = (status) => {
         this.setState({
             loggedIn: status
-          })
+        })
     }
     public onLogout = (status) => {
         this.setState({
             loggedIn: status,
             styleR: "fadeOutRight",
             styleL: "fadeOutLeft"
-          })
+        })
     }
 
     public render() {
-        let {loggedIn, styleL, styleR} = this.state
+        let { loggedIn, styleL, styleR } = this.state
         return (
             this.state.loggedIn ?
                 <ContainerDiv>
-                    <Header onLogout={this.onLogout} loggedIn={loggedIn}/>
-                    <Body styleR={styleR} styleL={styleL} style={{ height: "100%", padding: "20px", alignSelf: "center", minWidth: "1000px", flex: 1 }} />
+                    <Header onLogout={this.onLogout} loggedIn={loggedIn} />
+                    <Body styleR={styleR} styleL={styleL} style={{ padding: "20px", alignSelf: "center", minWidth: "1000px", flex: 1 }} />
                     <Footer style={{ justifyContent: "center", display: "flex" }} />
                 </ContainerDiv>
                 :
                 <ContainerDiv>
-                    <Header onLogout={this.onLogout}  loggedIn={loggedIn}/>
-                    <Login loggedIn={loggedIn} onLogin={this.onLogin}/>
+                    <Header onLogout={this.onLogout} loggedIn={loggedIn} />
+                    <Login loggedIn={loggedIn} onLogin={this.onLogin} />
                     <Footer style={{ justifyContent: "center", display: "flex" }} />
                 </ContainerDiv>
         )

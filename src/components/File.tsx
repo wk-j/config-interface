@@ -37,7 +37,6 @@ export class File extends React.Component<FileProps> {
                     <List.Header>
                         {this.props.file.name} {isSelected(this.props.file.name)}
                     </List.Header>
-                    {/* <List.Description as="a">File</List.Description> */}
                 </List.Content>
             </List.Item>
         )
