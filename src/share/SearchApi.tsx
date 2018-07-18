@@ -14,6 +14,11 @@ export type Node = {
     parent: number
     pathFile: string
 }
+type LoginResult = {
+    Success: boolean;
+    Username: string;
+    Pass: string;
+}
 
 export class SearchApi {
     constructor(private url: string) {
@@ -40,5 +45,11 @@ export class SearchApi {
     }
     public getNode(path: string) {
         return axios.get<Node[]>(`${this.url}/api/Search/GetNodes?path=${path}`)
+    }
+    public Login(user: string, pass: string) {
+        return axios.post(`${this.url}/api/Search/LoginRequest`, {
+            User: user,
+            Pass: pass
+        })
     }
 }
