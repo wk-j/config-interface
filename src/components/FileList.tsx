@@ -14,8 +14,8 @@ type Props = {
     nodes: Node[]
 }
 
-const header = styled.div`
-  cursor: pointer;
+const FileDiv = styled.div`
+  padding: 5px;
 `
 
 export class FileList extends React.Component<Props> {
@@ -33,26 +33,35 @@ export class FileList extends React.Component<Props> {
 
     public render() {
         let { folder, nodes } = this.props;
+        /*let isSelected = (file) => {
+            return this.props.projectPath.indexOf(file) !== -1
+        }*/
+        let setFalse = false;
         const ListMain = ({ }) => (
             <List.Item>
                 <List.Icon name="folder" size="large" verticalAlign="middle" />
                 <List.Content>
                     <List.Header>
                         {this.props.folder.name}
-
                     </List.Header>
-                    <List.Description>Folder</List.Description>
+                    {/* <List.Description>Folder</List.Description> */}
                 </List.Content>
                 <List.List>
-                {this.getFolders(folder).map(x => <FileList projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} folder={x} nodes={nodes} />)}
-                {this.getFiles(folder).map(x => <File projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} file={x} />)}
+                    {this.getFolders(folder).map(x => <FileList projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} folder={x} nodes={nodes} />)}
+                    <List selection divided relaxed >
+                        {this.getFiles(folder).map(x => <File projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} file={x} />)}
+                    </List>
                 </List.List>
-            </List.Item>                  )
+            </List.Item>
+
+        )
         // _______________สร้างlist_____________|
         return (
-            <List divided selection relaxed >
+
+            <List divided relaxed >
                 <ListMain />
             </List>
-            )
+
+        )
     }
 }

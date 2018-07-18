@@ -31,14 +31,14 @@ export class File extends React.Component<FileProps> {
             return this.props.projectPath.indexOf(select) !== -1
         }
         return (
-            <List.Item active={isSelected(this.props.file.name)} onClick={this.onClick(this.props.file)} >
-            <List.Icon name="file" size="large" verticalAlign="middle" />
-            <List.Content>
-                <List.Header as="a" >
-                {this.props.file.name} {isSelected(this.props.file.name)}
-                </List.Header>
-                <List.Description as="a">File</List.Description>
-            </List.Content>
+            <List.Item active={isSelected(this.props.file.pathFile)} onClick={this.onClick(this.props.file)} >
+                <List.Icon name="file" size="large" verticalAlign="middle" />
+                <List.Content>
+                    <List.Header>
+                        {this.props.file.name} {isSelected(this.props.file.name)}
+                    </List.Header>
+                    {/* <List.Description as="a">File</List.Description> */}
+                </List.Content>
             </List.Item>
         )
     }

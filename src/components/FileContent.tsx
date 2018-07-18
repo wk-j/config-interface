@@ -1,7 +1,8 @@
 import React from "react"
 import { TextArea, Button } from "semantic-ui-react"
+import MonacoEditor from "react-monaco-editor";
 import styled from "styled-components"
-import style from "css"
+import { Header, Icon, Segment } from "semantic-ui-react"
 
 const LabelDiv = styled.div`
   margin-bottom: 5px;
@@ -10,6 +11,7 @@ const LabelDiv = styled.div`
 const ContentDiv = styled.div`
   flex-grow: 1;
   margin-bottom: 10px;
+  display: block;
 `
 type Props = {
     ProjectContent: string
@@ -27,9 +29,9 @@ export class FileContent extends React.Component<Props, State> {
         }
         this.handleContentChange = this.handleContentChange
     }
-    public handleContentChange = (e) => {
-        this.setState({ projectContent: e.target.value })
-      }
+    public handleContentChange = (data) => {
+        this.setState({ projectContent: data })
+    }
     public componentWillReceiveProps(props: Props) {
         this.state = {
             projectContent: props.ProjectContent
@@ -40,19 +42,31 @@ export class FileContent extends React.Component<Props, State> {
     }
     public render() {
         const ButtonSave = () => (
-            <Button floated="right" value="Save" name="Save" onClick={this.onSave} >Save</Button>
-          )
+            <Button.Group floated="right" inverted size="small">
+                <Button icon="save" onClick={this.onSave} />
+            </Button.Group>
+            // <Button icon labelPosition="left" color="green" floated="right" value="Save" name="Save" onClick={this.onSave}>
+            //     <Button.Content visible><Icon name="save" /> Save</Button.Content>
+            // </Button>
+        )
+        const options = {
+            minimap: { enabled: false }
+        } as any;
         return (
             <div>
-            <ContentDiv>
-                <LabelDiv>Content</LabelDiv>
-                <TextArea autoheight value={this.state.projectContent}
-                    style={{ minHeight: 300, width: "100%" }}
-                    onChange={this.handleContentChange} />
-            </ContentDiv>
-            <div>
-                <ButtonSave />
-            </div>
+                <Segment>
+                    <ContentDiv>
+                        <Header as="h3">
+                            <Icon name="edit" />
+                            <Header.Content>Content</Header.Content>
+                        </Header>
+                        <MonacoEditor options={options} language="json" width="130%" height="350" theme="vs-light"
+                            value={this.state.projectContent} onChange={this.handleContentChange} />
+                    </ContentDiv>
+                </Segment>
+                <div>
+                    <ButtonSave />
+                </div>
             </div>
         )
     }

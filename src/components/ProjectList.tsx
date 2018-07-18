@@ -1,6 +1,7 @@
 import React, { CSSProperties } from "react"
 import { Dropdown } from "semantic-ui-react"
 import styled from "styled-components"
+import { Header, Icon, Divider } from "semantic-ui-react"
 
 const LabelDiv = styled.div`
   margin-bottom: 5px;
@@ -20,15 +21,17 @@ export class ProjectList extends React.Component<Props> {
       }
     public render() {
         const DropdownProjectName = ({ }) => (
-
             <Dropdown placeholder={this.props.projectName} fluid selection options={this.props.dropdownOption}
-
               onChange={this.setValue.bind(this)} value={this.props.projectName} />
           )
         return (
             <div>
-                <LabelDiv>Select Project</LabelDiv>
+                <Header as="h3">
+                <Icon name="archive" />
+                <Header.Content>Select Project</Header.Content>
+                </Header>
             <DropdownProjectName />
+            <Divider />
             </div>
         )
     }

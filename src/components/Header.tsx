@@ -1,14 +1,40 @@
 import React, { CSSProperties } from "react"
-import { Menu, Segment } from "semantic-ui-react";
+import { Menu, Icon, Message, Button } from "semantic-ui-react";
+type Props = {
+    loggedIn: boolean
+    // tslint:disable-next-line:variable-name
+    onLogout: (string) => void
+}
+type State = {
+    render: boolean
+}
+export class Header extends React.Component<Props, State> {
+    public onLogout = () => {
+        this.props.onLogout(false)
+    }
+    constructor(props) {
+        super(props);
 
-export class Header extends React.Component<{ style?: CSSProperties }> {
+        this.state = {
+            render: false
+        };
+    }
     public render() {
         return (
-            <div style={this.props.style}>
-                <Menu pointing>
-                    <Menu.Item name="configEditor" />
-                </Menu>
-            </div>
+            this.props.loggedIn ?
+                <div>
+                    <Menu inverted icon="labeled">
+                        <Menu.Item header name="Config Editor" />
+                        <Menu.Item position="right" name="logout" disabled={false} onClick={this.onLogout}>
+                        </Menu.Item>
+                    </Menu>
+                </div>
+                :
+                <div>
+                    <Menu inverted icon="labeled">
+                        <Menu.Item header name="Config Editor" />
+                    </Menu>
+                </div>
         )
     }
 }
