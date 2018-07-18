@@ -44,13 +44,13 @@ export class FileList extends React.Component<Props> {
                     <List.Header>
                         {this.props.folder.name}
                     </List.Header>
-                    <List.Description>Folder</List.Description>
+                    {/* <List.Description>Folder</List.Description> */}
                 </List.Content>
                 <List.List>
-                {this.getFolders(folder).map(x => <FileList projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} folder={x} nodes={nodes} />)}
-                <List animated selection divided relaxed >
-                {this.getFiles(folder).map(x => <File projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} file={x} />)}
-                </List>
+                    {this.getFolders(folder).map(x => <FileList projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} folder={x} nodes={nodes} />)}
+                    <List selection divided relaxed >
+                        {this.getFiles(folder).map(x => <File projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} file={x} />)}
+                    </List>
                 </List.List>
             </List.Item>
 
