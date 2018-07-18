@@ -42,17 +42,19 @@ export class FileContent extends React.Component<Props, State> {
     }
     public render() {
         const ButtonSave = () => (
-            <Button animated icon labelPosition="left" color="green" floated="right" value="Save" name="Save" onClick={this.onSave}>
-                <Button.Content visible><Icon name="save" /> Save</Button.Content>
-                <Button.Content hidden><Icon name="check" />Confirm</Button.Content>
-            </Button>
+            <Button.Group floated="right" inverted size="small">
+                <Button icon="save" onClick={this.onSave} />
+            </Button.Group>
+            // <Button icon labelPosition="left" color="green" floated="right" value="Save" name="Save" onClick={this.onSave}>
+            //     <Button.Content visible><Icon name="save" /> Save</Button.Content>
+            // </Button>
         )
         const options = {
             minimap: { enabled: false }
         } as any;
         return (
             <div>
-                <Segment inverted color="teal" secondary>
+                <Segment>
                     <ContentDiv>
                         <Header as="h3">
                             <Icon name="edit" />

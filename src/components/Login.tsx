@@ -49,7 +49,7 @@ export class Login extends React.Component<Props, State> {
         this.searchApi.Login(user, pass).then(res => {
             if (res.data) {
                 this.setState({ status: true, style: "out" })
-                setTimeout(function() {
+                setTimeout(function () {
                     this.setState({ render: true })
                 }.bind(this), 850)
             }
@@ -61,21 +61,21 @@ export class Login extends React.Component<Props, State> {
     }
     public render() {
         if (this.state.render) {
-            this.props.onLogin(true) }
-        return(
-            <div className = { this.state.style } >
-            <div className="login-form">
-                <style>{`
+            this.props.onLogin(true)
+        }
+        return (
+            <div className={this.state.style} >
+                <div className="login-form">
+                    <style>{`
               body > div,
               body > div > div,
               body > div > div > div.login-form {
                 height: 100%;
               }
             `}</style>
-                <Grid textAlign="center" style={{ height: "100%" }} verticalAlign="middle">
-                    <Grid.Column style={{ maxWidth: 450 }}>
-                        <Segment>
-                            <Segment inverted color="teal" tertiary>
+                    <Grid textAlign="center" style={{ height: "100%" }} verticalAlign="middle">
+                        <Grid.Column style={{ maxWidth: 450 }}>
+                            <Segment>
                                 <Header as="h2" icon>
                                     <Icon name="settings" />
                                     Config Editor
@@ -89,7 +89,7 @@ export class Login extends React.Component<Props, State> {
                                     />
                                 }
                                 <Form size="large">
-                                    <Segment stacked>
+                                    <Segment basic>
                                         <Form.Input fluid icon="user" iconPosition="left" placeholder="Username"
                                             onChange={this.handleUserChange} className="" />
                                         <Form.Input
@@ -109,10 +109,9 @@ export class Login extends React.Component<Props, State> {
                                     </Segment>
                                 </Form>
                             </Segment>
-                        </Segment>
-                    </Grid.Column>
-                </Grid>
-            </div>
+                        </Grid.Column>
+                    </Grid>
+                </div>
             </div>
         );
     }
