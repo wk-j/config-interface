@@ -27,8 +27,8 @@
         "typescript": "^2.9.2"
     },
     "scripts": {
-        "start": "parcel watch ../config-service/src/ConfigService/wwwroot",
-        "build": "parcel build src/index.html -d ../config-service/src/ConfigService/wwwroot"
+        "start": "parcel watch src/index.html -d ../ConfigService/src/ConfigService/wwwroot --public-url /",
+        "build": "parcel build src/index.html -d ../ConfigService/src/ConfigService/wwwroot --public-url /"
     },
     "repository": {
         "type": "git",
