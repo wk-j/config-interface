@@ -33,27 +33,31 @@ const Rightfix = styled.div`
     display: block;
     width: 100%;
     height: 40px;
-    bottom: 0
+    bottom: 0;
 `
 
 const BodyDiv = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
 `
 
 const LeftDiv = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 15px;
+  padding: 5px;
+  max-width: 500px;
   width: 30%;
 `
 
 const RigthDiv = styled.div`
+  max-width:500px;
   display: block;
   flex-direction: column;
-  flex-grow: 3;
-  padding: 20px;
+  flex-grow: 1;
+  max-width: 1000px;
+  padding: 5px;
 `
 
 export class Body extends React.Component<Props, State> {

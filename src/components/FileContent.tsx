@@ -42,28 +42,29 @@ export class FileContent extends React.Component<Props, State> {
     }
     public render() {
         const ButtonSave = () => (
-            <Button.Group floated="right" inverted size="small">
-                <Button icon="save" onClick={this.onSave} />
-            </Button.Group>
-            // <Button icon labelPosition="left" color="green" floated="right" value="Save" name="Save" onClick={this.onSave}>
-            //     <Button.Content visible><Icon name="save" /> Save</Button.Content>
-            // </Button>
+            // <Button secondary onClick={this.onSave} floated="right">Save</Button>
+            <Button floated="right" icon labelPosition="left" onClick={this.onSave}>
+                <Icon name="save" />
+                Save
+            </Button>
         )
         const options = {
-            minimap: { enabled: false }
+            minimap: { enabled: false },
+            automaticLayout: true,
+            rulers: [150]
         } as any;
         return (
             <div>
-                <Segment>
-                    <ContentDiv>
+                <ContentDiv>
+                    <Segment>
                         <Header as="h3">
                             <Icon name="edit" />
                             <Header.Content>Content</Header.Content>
                         </Header>
-                        <MonacoEditor options={options} language="json" width="130%" height="350" theme="vs-light"
+                        <MonacoEditor options={options} language="json" width="100%" height="80%" theme="vs-light"
                             value={this.state.projectContent} onChange={this.handleContentChange} />
-                    </ContentDiv>
-                </Segment>
+                    </Segment>
+                </ContentDiv>
                 <div>
                     <ButtonSave />
                 </div>

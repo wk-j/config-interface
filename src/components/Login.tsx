@@ -49,9 +49,9 @@ export class Login extends React.Component<Props, State> {
         this.searchApi.Login(user, pass).then(res => {
             if (res.data) {
                 this.setState({ status: true, style: "out" })
-                setTimeout(function () {
+                setTimeout(() => {
                     this.setState({ render: true })
-                }.bind(this), 850)
+                }, 850)
             }
         }).catch(err => {
             if (err.response.status === 401) {
@@ -69,11 +69,9 @@ export class Login extends React.Component<Props, State> {
                     <style>{`
               body > div,
               body > div > div,
-              body > div > div > div.login-form {
-                height: 100%;
-              }
+              body > div > div > div.login-form { }
             `}</style>
-                    <Grid textAlign="center" style={{ height: "100%" }} verticalAlign="middle">
+                    <Grid textAlign="center" style={{ height: "80%" }} verticalAlign="middle">
                         <Grid.Column style={{ maxWidth: 450 }}>
                             <Segment>
                                 <Header as="h2" icon>
@@ -100,11 +98,8 @@ export class Login extends React.Component<Props, State> {
                                             type="password" onChange={this.handlePassChange}
                                             className=""
                                         />
-                                        <Button animated="vertica" color="green" fluid size="large" onClick={this.onLogin}>
-                                            <Button.Content hidden><Icon name="sign in" /></Button.Content>
-                                            <Button.Content visible>
-                                                Log in
-                                                </Button.Content>
+                                        <Button color="green" fluid size="large" onClick={this.onLogin}>
+                                            <Button.Content visible> Login </Button.Content>
                                         </Button>
                                     </Segment>
                                 </Form>

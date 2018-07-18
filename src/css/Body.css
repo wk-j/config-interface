@@ -1,7 +1,7 @@
-div.leftTo { animation: 1s ease-out 0s 1 bounceInLeft;}
+/* div.leftTo { animation: 1s ease-out 0s 1 bounceInLeft;}
 div.rightTo { animation: 1s ease-out 0s 1 bounceInRight;}
 div.rightOut { animation: 0.5s ease-out 0s 0.5 fadeOutRight;}
-div.leftOut { animation: 0.5s ease-out 0s 0.5 fadeOutLeft;}
+div.leftOut { animation: 0.5s ease-out 0s 0.5 fadeOutLeft;} */
 
 @keyframes fadeOutLeft {
   from {

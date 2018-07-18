@@ -39,12 +39,11 @@ export class FileList extends React.Component<Props> {
         let setFalse = false;
         const ListMain = ({ }) => (
             <List.Item>
-                <List.Icon name="folder" size="large" verticalAlign="middle" />
+                <List.Icon color="yellow" name="folder" size="large" verticalAlign="middle" />
                 <List.Content>
                     <List.Header>
                         {this.props.folder.name}
                     </List.Header>
-                    {/* <List.Description>Folder</List.Description> */}
                 </List.Content>
                 <List.List>
                     {this.getFolders(folder).map(x => <FileList projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} folder={x} nodes={nodes} />)}
