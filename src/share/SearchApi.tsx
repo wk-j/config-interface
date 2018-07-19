@@ -52,4 +52,7 @@ export class SearchApi {
             Pass: pass
         })
     }
+    public getPath(projectName: string) {
+        return axios.get<string>(`${this.url}/api/search/GetProjectPath/?projectName=${projectName}`)
+    }
 }

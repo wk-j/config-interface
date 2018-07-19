@@ -34,9 +34,7 @@ export class App extends React.Component<{}, State> {
     }
     public onLogout = (status) => {
         this.setState({
-            loggedIn: status,
-            styleR: "fadeOutRight",
-            styleL: "fadeOutLeft"
+            loggedIn: status
         })
     }
 

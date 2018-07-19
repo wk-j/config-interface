@@ -132,15 +132,14 @@ export class Body extends React.Component<Props, State> {
 
             let pathProjects = [];
             pathProjects = response.data.map(x => x);
+            this.searchApi.getPath(name).then(res => {
+                this.searchApi.getNode(res.data).then(rs => {
+                    this.setState({ nodes: rs.data })
+                })
+            })
             this.setState({ pathProject: pathProjects })
             this.setState({ projectPath: pathProjects[0] })
             this.initSettingContent(pathProjects[0])
-            let strArr: string[] = pathProjects[0].split("/")
-            let dePath = "/" + strArr[1] + "/" + strArr[2]
-            this.searchApi.getNode(dePath).then(rs => {
-                this.setState({ nodes: rs.data })
-            })
-
             let filename2 = this.state.nodes.map(x => x.name)
             this.setState({ fileName: filename2 })
         })
@@ -172,7 +171,11 @@ export class Body extends React.Component<Props, State> {
     private onProjectChange = (project) => {
         this.setState({
             projectName: project,
-            projectContent: ""
+            projectContent: "",
+            projectPath: "",
+            fileName: [],
+            pathProject: [],
+            nodes: []
         })
         this.initProjectSettings(project)
     }
