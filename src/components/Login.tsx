@@ -3,6 +3,7 @@ import { Button, Form, Grid, Header, Message, Icon, Segment } from "semantic-ui-
 import { SearchApi } from "../share/searchApi";
 import { getApiUrl } from "../share/Configuration";
 import "../css/style.css"
+import AppStorage from "../share/AppStorage"
 
 type State = {
     user: string
@@ -47,12 +48,11 @@ export class Login extends React.Component<Props, State> {
     }
     private initLogin = (user: string, pass: string) => {
         this.searchApi.Login(user, pass).then(res => {
-            if (res.data) {
+                AppStorage.setLoggedIn(true)
                 this.setState({ status: true, style: "out" })
                 setTimeout(() => {
                     this.setState({ render: true })
                 }, 850)
-            }
         }).catch(err => {
             if (err.response.status === 401) {
                 this.setState({ status: false })
@@ -62,7 +62,9 @@ export class Login extends React.Component<Props, State> {
     public render() {
         if (this.state.render) {
             this.props.onLogin(true)
+            // this.setstate({style: "s"})
         }
+
         return (
             <div className={this.state.style} >
                 <div className="login-form">

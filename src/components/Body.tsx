@@ -131,6 +131,7 @@ export class Body extends React.Component<Props, State> {
         this.searchApi.getProjectSettings(name).then(response => {
 
             let pathProjects = [];
+            console.log("Path Project" + response.data)
             pathProjects = response.data.map(x => x);
             this.searchApi.getPath(name).then(res => {
                 this.searchApi.getNode(res.data).then(rs => {
@@ -138,10 +139,13 @@ export class Body extends React.Component<Props, State> {
                 })
             })
             this.setState({ pathProject: pathProjects })
+            console.log("Path Project" + pathProjects)
             this.setState({ projectPath: pathProjects[0] })
+            console.log("ProjectPath" + pathProjects[0])
             this.initSettingContent(pathProjects[0])
             let filename2 = this.state.nodes.map(x => x.name)
             this.setState({ fileName: filename2 })
+            console.log("filename" + filename2)
         })
     }
 
@@ -178,14 +182,6 @@ export class Body extends React.Component<Props, State> {
             nodes: []
         })
         this.initProjectSettings(project)
-    }
-
-    private onFileChange = (file) => {
-        this.setState({
-            projectPath: file,
-            projectContent: ""
-        });
-        this.initSettingContent(file)
     }
 
     private onSelect = (node) => {

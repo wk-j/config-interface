@@ -1,5 +1,7 @@
 import React, { CSSProperties } from "react"
 import { Menu, Icon, Message, Button } from "semantic-ui-react";
+import AppStorage from "../share/AppStorage"
+
 type Props = {
     loggedIn: boolean
     // tslint:disable-next-line:variable-name
@@ -10,6 +12,7 @@ type State = {
 }
 export class Header extends React.Component<Props, State> {
     public onLogout = () => {
+        AppStorage.setLoggedIn(false)
         this.props.onLogout(false)
     }
     constructor(props) {

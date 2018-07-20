@@ -1,7 +1,26 @@
-/* div.leftTo { animation: 1s ease-out 0s 1 bounceInLeft;}
+div.leftTo { animation: 1s ease-out 0s 1 bounceInLeft;}
 div.rightTo { animation: 1s ease-out 0s 1 bounceInRight;}
-div.rightOut { animation: 0.5s ease-out 0s 0.5 fadeOutRight;}
-div.leftOut { animation: 0.5s ease-out 0s 0.5 fadeOutLeft;} */
+div.bodyOut { animation: 0.8s ease-out 0s 1 zoomOut;}
+
+@keyframes zoomOut {
+  20% {
+    -webkit-transform: translate3d(0, 10px, 0);
+    transform: translate3d(0, 10px, 0);
+  }
+
+  40%,
+  45% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, -20px, 0);
+    transform: translate3d(0, -20px, 0);
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 2000px, 0);
+    transform: translate3d(0, 2000px, 0);
+  }
+}
 
 @keyframes fadeOutLeft {
   from {
