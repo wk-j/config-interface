@@ -32,11 +32,10 @@ export class File extends React.Component<FileProps> {
         }
         return (
             <List.Item active={isSelected(this.props.file.pathFile)} onClick={this.onClick(this.props.file)} >
-                <List.Icon name="file" size="large" verticalAlign="middle" />
+                <List.Icon name="file" size="large" />
                 <List.Content>
-                    <List.Header>
-                        {this.props.file.name} {isSelected(this.props.file.name)}
-                    </List.Header>
+                    <List.Header> {this.props.file.name} {isSelected(this.props.file.name)} </List.Header>
+                    <List.Description>20/10/2018 15:55</List.Description>
                 </List.Content>
             </List.Item>
         )
