@@ -51,7 +51,7 @@ const LeftDiv = styled.div`
   width: 30%;
 `
 
-const RigthDiv = styled.div`
+const RightDiv = styled.div`
   max-width:500px;
   display: block;
   flex-direction: column;
@@ -212,9 +212,9 @@ export class Body extends React.Component<Props, State> {
                             projectPath={projectPath} fileName={fileName} pathProject={pathProject} />
                     </Segment>
                 </LeftDiv>
-                <RigthDiv className={this.props.styleR}>
+                <RightDiv className={this.props.styleR}>
                     <FileContent ProjectContent={projectContent} onChange={this.onContentChange} />
-                </RigthDiv>
+                </RightDiv>
             </BodyDiv>
         );
     }

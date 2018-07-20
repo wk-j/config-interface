@@ -57,7 +57,7 @@ export class FileContent extends React.Component<Props, State> {
             <div>
                 <ContentDiv>
                     <Segment>
-                        <Header as="h3">
+                        <Header as="h5">
                             <Icon name="edit" />
                             <Header.Content>Content</Header.Content>
                         </Header>
