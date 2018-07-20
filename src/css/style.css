@@ -14,11 +14,40 @@ body {
 
 }
 
-div.login {  animation: 1s ease-out 0s 1 jackInTheBox;}
+div.login {  animation: 0.7s ease-out 0s 1 jackInTheBox;}
 
 div.out {
   animation: 1s ease-out 0s 1 bounceOutDown;
 }
+div.wrong {
+  animation: 1s ease-out 0s 1 shake;
+}
+
+@keyframes shake {
+  from,
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    -webkit-transform: translate3d(10px, 0, 0);
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
 @keyframes bounceOutDown {
   20% {
     -webkit-transform: translate3d(0, 10px, 0);

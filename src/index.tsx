@@ -6,11 +6,14 @@ import { Header } from "./components/Header"
 import { Body } from "./components/Body"
 import { Login } from "./components/Login"
 import "semantic-ui-css/semantic.min.css"
+import "./css/Body.css"
+import AppStorage from "./share/AppStorage"
 
 type State = {
     loggedIn: boolean
     styleR: string
     styleL: string
+    styleBody: string
 }
 
 const ContainerDiv = styled.div`
@@ -24,27 +27,36 @@ export class App extends React.Component<{}, State> {
         this.state = {
             loggedIn: false,
             styleR: "rightTo",
-            styleL: "leftTo"
+            styleL: "leftTo",
+            styleBody: "none",
         }
     }
     public onLogin = (status) => {
         this.setState({
-            loggedIn: status
+            loggedIn: status, styleBody: "none"
         })
+        console.log(this.state.styleBody)
     }
-    public onLogout = (status) => {
-        this.setState({
-            loggedIn: status
-        })
+    public onLogout = () => {
+        this.setState({ styleBody: "bodyOut" })
+        setTimeout(() => {
+            this.setState({ loggedIn: false })
+        }, 800)
+    }
+
+    public componentDidMount() {
+        this.setState({ loggedIn: AppStorage.getLoggedIn() })
     }
 
     public render() {
-        let { loggedIn, styleL, styleR } = this.state
+        let { loggedIn, styleL, styleR, styleBody } = this.state
         return (
             this.state.loggedIn ?
                 <ContainerDiv>
                     <Header onLogout={this.onLogout} loggedIn={loggedIn} />
-                    <Body styleR={styleR} styleL={styleL} style={{ padding: "20px", alignSelf: "center", minWidth: "1000px", flex: 1 }} />
+                    <div className={styleBody}>
+                        <Body styleR={styleR} styleL={styleL} style={{ padding: "20px", alignSelf: "center", minWidth: "1000px", flex: 1 }} />
+                    </div>
                     <Footer style={{ justifyContent: "center", display: "flex" }} />
                 </ContainerDiv>
                 :
