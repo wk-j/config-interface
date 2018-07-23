@@ -88,7 +88,8 @@ export class Body extends React.Component<Props, State> {
                 isRoot: true,
                 parent: 0,
                 isFile: false,
-                pathFile: ""
+                pathFile: "",
+                modifieDate: ""
             }
         }
     }
@@ -126,7 +127,8 @@ export class Body extends React.Component<Props, State> {
                 isFile: false,
                 id: 0,
                 parent: 0,
-                pathFile: ""
+                pathFile: "",
+                modifieDate: ""
             }
         }
     }
@@ -203,6 +205,7 @@ export class Body extends React.Component<Props, State> {
         this.setState({
             projectContent: content
         });
+        this.initProjectSettings(this.state.projectName)
         this.initSaveSettingContent(this.state.projectPath, content)
     }
 

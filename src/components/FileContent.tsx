@@ -27,7 +27,7 @@ export class FileContent extends React.Component<Props, State> {
     constructor(props) {
         super(props)
         this.state = {
-            projectContent: props.projectContent
+            projectContent: props.projectContent,
         }
         this.handleContentChange = this.handleContentChange
     }
@@ -36,7 +36,7 @@ export class FileContent extends React.Component<Props, State> {
     }
     public componentWillReceiveProps(props: Props) {
         this.state = {
-            projectContent: props.ProjectContent
+            projectContent: props.ProjectContent,
         }
     }
     public onSave = (e) => {

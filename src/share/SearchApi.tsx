@@ -13,6 +13,7 @@ export type Node = {
     isFile: boolean
     parent: number
     pathFile: string
+    modifieDate: string
 }
 type LoginResult = {
     Success: boolean;
