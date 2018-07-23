@@ -39,7 +39,7 @@ export class FileList extends React.Component<Props> {
                     <List.Icon color="yellow" name="folder" />
                     <List.Content>
                         <List.Header> {this.props.folder.name} </List.Header>
-                        <List.Description>20/10/2018</List.Description>
+                        <List.Description></List.Description>
                     </List.Content>
                             {this.getFolders(folder).map(x => <FileList projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} folder={x} nodes={nodes} />)}
                             {this.getFiles(folder).map(x => <File projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} file={x} />)}

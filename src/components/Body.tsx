@@ -27,37 +27,43 @@ type State = {
     selectedNode: Node
 }
 
-const Rightfix = styled.div`
-    padding: 0px;
-    position: fixed;
-    display: block;
-    width: 100%;
-    height: 40px;
-    bottom: 0;
-`
-
 const BodyDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  position: absolute;
+  width:100%;
+  height: 100%;
 `
 
 const LeftDiv = styled.div`
-  display: flex;
+  display: absolute;
   flex-direction: column;
   flex-grow: 1;
   padding: 5px;
-  max-width: 500px;
+  left: 0;
+  top: 0;
+  height: calc(80% - 50px);
   width: 30%;
+  min-width: 30%;
+  min-height: 10%;
+  resize:vertical;
 `
 
 const RightDiv = styled.div`
-  max-width:500px;
-  display: block;
+  max-width:200px;
+  display: absolute;
   flex-direction: column;
   flex-grow: 1;
   max-width: 1000px;
   padding: 5px;
+  right: 0;
+  top: 0;
+  width: 60%;
+  min-width: 60%;
+  min-height: 10%;
+  resize:vertical;
+  height: calc(100% - 50px);
 `
 
 export class Body extends React.Component<Props, State> {
@@ -82,7 +88,8 @@ export class Body extends React.Component<Props, State> {
                 isRoot: true,
                 parent: 0,
                 isFile: false,
-                pathFile: ""
+                pathFile: "",
+                modifieDate: ""
             }
         }
     }
@@ -120,7 +127,8 @@ export class Body extends React.Component<Props, State> {
                 isFile: false,
                 id: 0,
                 parent: 0,
-                pathFile: ""
+                pathFile: "",
+                modifieDate: ""
             }
         }
     }
@@ -197,6 +205,7 @@ export class Body extends React.Component<Props, State> {
         this.setState({
             projectContent: content
         });
+        this.initProjectSettings(this.state.projectName)
         this.initSaveSettingContent(this.state.projectPath, content)
     }
 
@@ -208,8 +217,10 @@ export class Body extends React.Component<Props, State> {
                 <LeftDiv className={this.props.styleL}>
                     <Segment>
                         <ProjectList projectName={projectName} dropdownOption={dropdownOption} onChange={this.onProjectChange} />
+                        <div className= "box">
                         <FileList isSelected={this.isSelected} onSelect={this.onSelect} nodes={this.state.nodes} folder={this.getRoot()}
                             projectPath={projectPath} fileName={fileName} pathProject={pathProject} />
+                        </div>
                     </Segment>
                 </LeftDiv>
                 <RightDiv className={this.props.styleR}>

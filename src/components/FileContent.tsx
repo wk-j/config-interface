@@ -12,6 +12,8 @@ const ContentDiv = styled.div`
   flex-grow: 1;
   margin-bottom: 10px;
   display: block;
+  max-width: 100%;
+  width: 100%;
 `
 type Props = {
     ProjectContent: string
@@ -25,7 +27,7 @@ export class FileContent extends React.Component<Props, State> {
     constructor(props) {
         super(props)
         this.state = {
-            projectContent: props.projectContent
+            projectContent: props.projectContent,
         }
         this.handleContentChange = this.handleContentChange
     }
@@ -34,7 +36,7 @@ export class FileContent extends React.Component<Props, State> {
     }
     public componentWillReceiveProps(props: Props) {
         this.state = {
-            projectContent: props.ProjectContent
+            projectContent: props.ProjectContent,
         }
     }
     public onSave = (e) => {
@@ -61,7 +63,7 @@ export class FileContent extends React.Component<Props, State> {
                             <Icon name="edit" />
                             <Header.Content>Content</Header.Content>
                         </Header>
-                        <MonacoEditor options={options} language="json" width="100%" height="80%" theme="vs-light"
+                        <MonacoEditor options={options} language="json" width="100%" height="80%" theme="vs-light" max-width="100%"
                             value={this.state.projectContent} onChange={this.handleContentChange} />
                     </Segment>
                 </ContentDiv>
