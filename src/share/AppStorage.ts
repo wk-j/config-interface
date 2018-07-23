@@ -2,10 +2,10 @@ export default class AppStorage {
 
     public static loggedIn = "loggedIn"
 
-    public static getLoggedIn(): boolean {
-        return JSON.parse(sessionStorage.getItem(this.loggedIn))
+    public static getLoggedIn(): string {
+        return sessionStorage.getItem(this.loggedIn)
     }
-    public static setLoggedIn(value): void {
+    public static setLoggedIn(value: string): void {
         sessionStorage.setItem(this.loggedIn, value)
     }
 }

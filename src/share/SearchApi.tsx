@@ -16,9 +16,7 @@ export type Node = {
     modifieDate: string
 }
 type LoginResult = {
-    Success: boolean;
-    Username: string;
-    Pass: string;
+    access_token: string;
 }
 type pathFile = {
     files: string[];
@@ -54,7 +52,7 @@ export class SearchApi {
         return axios.get<Node[]>(`${this.url}/api/Search/GetNodes?path=${path}`)
     }
     public Login(user: string, pass: string) {
-        return axios.post(`${this.url}/api/Search/LoginRequest`, {
+        return axios.post<LoginResult>(`${this.url}/api/Search/LoginRequest`, {
             User: user,
             Pass: pass
         })
