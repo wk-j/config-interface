@@ -41,17 +41,11 @@ export class FileList extends React.Component<Props> {
                         <List.Header> {this.props.folder.name} </List.Header>
                         <List.Description>20/10/2018</List.Description>
                     </List.Content>
-                    <List.List>
-                        {this.getFolders(folder).map(x => <FileList projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} folder={x} nodes={nodes} />)}
-                        <List selection>
+                            {this.getFolders(folder).map(x => <FileList projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} folder={x} nodes={nodes} />)}
                             {this.getFiles(folder).map(x => <File projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} file={x} />)}
-                        </List>
-                    </List.List>
                 </List.Item>
             </List>
-
         )
-
         return (
             <ListMain />
         )
