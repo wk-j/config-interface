@@ -139,10 +139,11 @@ export class Body extends React.Component<Props, State> {
         this.searchApi.getProjectSettings(name).then(response => {
 
             let pathProjects = [];
-            console.log("Path Project" + response.data)
-            pathProjects = response.data.map(x => x);
+            console.log("getprojectsettings")
+            console.log(response.data)
+            pathProjects = response.data.files.map(x => x);
             this.searchApi.getPath(name).then(res => {
-                this.searchApi.getNode(res.data).then(rs => {
+                this.searchApi.getNode(res.data.path).then(rs => {
                     this.setState({ nodes: rs.data })
                 })
             })

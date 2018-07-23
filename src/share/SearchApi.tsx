@@ -20,6 +20,12 @@ type LoginResult = {
     Username: string;
     Pass: string;
 }
+type pathFile = {
+    files: string[];
+}
+type pathProject = {
+    path: string;
+}
 
 export class SearchApi {
     constructor(private url: string) {
@@ -30,7 +36,7 @@ export class SearchApi {
         return axios.get<string[]>(`${this.url}/api/search/getProjectNames`)
     }
     public getProjectSettings(projectName: string) {
-        return axios.get<string[]>(`${this.url}/api/search/getProjectSettings/?projectName=${projectName}`)
+        return axios.get<pathFile>(`${this.url}/api/search/getProjectSettings/?projectName=${projectName}`)
     }
     public getSettingContent(projectPath: string) {
         return axios.get<ContentResult>(`${this.url}/api/search/getSettingContent/?path=${projectPath}`)
@@ -54,6 +60,6 @@ export class SearchApi {
         })
     }
     public getPath(projectName: string) {
-        return axios.get<string>(`${this.url}/api/search/GetProjectPath/?projectName=${projectName}`)
+        return axios.get<pathProject>(`${this.url}/api/search/GetProjectPath/?projectName=${projectName}`)
     }
 }
