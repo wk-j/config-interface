@@ -50,7 +50,7 @@ export class App extends React.Component<{}, State> {
         } else {
         this.setState({ loggedIn: false })
         }*/
-        this.setState({ loggedIn: AppStorage.getLoggedIn !== null })
+        this.setState({ loggedIn: AppStorage.getAccessToken !== null })
     }
 
     public render() {
