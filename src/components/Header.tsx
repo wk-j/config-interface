@@ -12,7 +12,7 @@ type State = {
 }
 export class Header extends React.Component<Props, State> {
     public onLogout = () => {
-        AppStorage.setLoggedIn(false)
+        AppStorage.setAccessToken(null)
         this.props.onLogout(false)
     }
     constructor(props) {
