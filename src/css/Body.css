@@ -1,6 +1,12 @@
 div.leftTo { animation: 1s ease-out 0s 1 bounceInLeft;}
 div.rightTo { animation: 1s ease-out 0s 1 bounceInRight;}
 div.bodyOut { animation: 0.8s ease-out 0s 1 zoomOut;}
+div.box { 
+  width: 100%;
+  height: 100%;
+  overflow:auto;
+  max-width: 100%;
+  }
 
 @keyframes zoomOut {
   20% {
