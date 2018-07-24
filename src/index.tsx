@@ -45,12 +45,13 @@ export class App extends React.Component<{}, State> {
     }
 
     public componentDidMount() {
-        /*if (AppStorage.getLoggedIn() === "token") {
+        /*if (AppStorage.getAccessToken() !== null) {
         this.setState({ loggedIn: true })
         } else {
         this.setState({ loggedIn: false })
         }*/
-        this.setState({ loggedIn: AppStorage.getAccessToken !== null })
+        console.log(AppStorage.getAccessToken())
+        this.setState({ loggedIn: AppStorage.getAccessToken() !== null })
     }
 
     public render() {
