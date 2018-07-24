@@ -33,7 +33,7 @@ const BodyDiv = styled.div`
   justify-content: center;
   position: absolute;
   width:100%;
-  height: 100%;
+  height: 90%;
 `
 
 const LeftDiv = styled.div`
@@ -44,10 +44,11 @@ const LeftDiv = styled.div`
   left: 0;
   top: 0;
   height: calc(80% - 50px);
-  width: 30%;
-  min-width: 30%;
+  width: 20%;
+  min-width: 25%;
   min-height: 10%;
   resize:vertical;
+  max-width:10%;
 `
 
 const RightDiv = styled.div`
@@ -55,15 +56,14 @@ const RightDiv = styled.div`
   display: absolute;
   flex-direction: column;
   flex-grow: 1;
-  max-width: 1000px;
   padding: 5px;
   right: 0;
   top: 0;
   width: 60%;
-  min-width: 60%;
-  min-height: 10%;
+  min-width: 65%;
+  min-height: 20%;
   resize:vertical;
-  height: calc(100% - 50px);
+  height: calc(100% - 30px);
 `
 
 export class Body extends React.Component<Props, State> {
