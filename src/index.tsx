@@ -43,6 +43,7 @@ export class App extends React.Component<{}, State> {
         this.setState({ styleBody: "bodyOut" })
         setTimeout(() => {
             this.setState({ loggedIn: false })
+            AppStorage.Logout()
         }, 800)
     }
 
@@ -52,8 +53,8 @@ export class App extends React.Component<{}, State> {
         } else {
         this.setState({ loggedIn: false })
         }*/
-        console.log(AppStorage.getAccessToken())
         this.setState({ loggedIn: AppStorage.getAccessToken() !== null })
+
     }
 
     public render() {

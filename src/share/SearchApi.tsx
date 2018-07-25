@@ -15,9 +15,10 @@ export type Node = {
     parent: number
     pathFile: string
     modifieDate: string
+    fileType: string
 }
 type LoginResult = {
-    access_token: string;
+    accessToken: string;
 }
 type PathFile = {
     files: string[];

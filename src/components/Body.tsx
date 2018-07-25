@@ -25,6 +25,7 @@ type State = {
     treeJson: string
     nodes: Node[]
     selectedNode: Node
+    extention: string
 }
 
 const BodyDiv = styled.div`
@@ -44,15 +45,14 @@ const LeftDiv = styled.div`
   left: 0;
   top: 0;
   height: calc(80% - 50px);
-  width: 20%;
-  min-width: 25%;
+  min-width: 350px;
   min-height: 10%;
   resize:vertical;
-  max-width:10%;
+  max-width: 20%;
 `
 
 const RightDiv = styled.div`
-  max-width:200px;
+  max-width:400px;
   display: absolute;
   flex-direction: column;
   flex-grow: 1;
@@ -89,8 +89,10 @@ export class Body extends React.Component<Props, State> {
                 parent: 0,
                 isFile: false,
                 pathFile: "",
-                modifieDate: ""
-            }
+                modifieDate: "",
+                fileType: ""
+            },
+            extention: ""
         }
     }
 
@@ -106,6 +108,20 @@ export class Body extends React.Component<Props, State> {
             this.setState({ dropdownOption: options })
             // ได้ค่าโปรเจคทั้งหมดมาเก็บในoption
             this.defaultValue()
+        })
+        let exten = this.state.selectedNode.fileType
+        let pattern = ""
+        if (exten === ".json") {
+            pattern = "json"
+        } else if (exten === ".xml" || exten === ".config") {
+            pattern = "xml"
+        } else if (exten === ".properties") {
+            pattern = "ini"
+        } else {
+            pattern = "json"
+        }
+        this.setState({
+            extention: pattern
         })
     }
 
@@ -128,7 +144,8 @@ export class Body extends React.Component<Props, State> {
                 id: 0,
                 parent: 0,
                 pathFile: "",
-                modifieDate: ""
+                modifieDate: "",
+                fileType: ""
             }
         }
     }
@@ -154,7 +171,7 @@ export class Body extends React.Component<Props, State> {
             this.initSettingContent(pathProjects[0])
             let filename2 = this.state.nodes.map(x => x.name)
             this.setState({ fileName: filename2 })
-            console.log("filename" + filename2)
+            console.log("filename" + this.state.fileName)
         })
     }
 
@@ -195,9 +212,21 @@ export class Body extends React.Component<Props, State> {
 
     private onSelect = (node) => {
         let pathFile = node.pathFile
+        let exten = node.fileType
+        let pattern = ""
+        if (exten === ".json") {
+            pattern = "json"
+        } else if (exten === ".xml" || exten === ".config") {
+            pattern = "xml"
+        } else if (exten === ".properties") {
+            pattern = "ini"
+        } else {
+            pattern = "json"
+        }
         this.setState({
             selectedNode: node,
-            projectPath: pathFile
+            projectPath: pathFile,
+            extention: pattern
         })
         this.initSettingContent(pathFile)
     }
@@ -208,24 +237,25 @@ export class Body extends React.Component<Props, State> {
         });
         this.initProjectSettings(this.state.projectName)
         this.initSaveSettingContent(this.state.projectPath, content)
+
     }
 
     public render() {
         let { projectName, projectPath, dropdownOption, fileName
-            , pathProject, projectContent } = this.state
+            , pathProject, projectContent, extention } = this.state
         return (
             <BodyDiv style={this.props.style}>
                 <LeftDiv className={this.props.styleL}>
                     <Segment>
                         <ProjectList projectName={projectName} dropdownOption={dropdownOption} onChange={this.onProjectChange} />
-                        <div className= "box">
-                        <FileList isSelected={this.isSelected} onSelect={this.onSelect} nodes={this.state.nodes} folder={this.getRoot()}
-                            projectPath={projectPath} fileName={fileName} pathProject={pathProject} />
+                        <div className="box">
+                            <FileList isSelected={this.isSelected} onSelect={this.onSelect} nodes={this.state.nodes} folder={this.getRoot()}
+                                projectPath={projectPath} fileName={fileName} pathProject={pathProject} />
                         </div>
                     </Segment>
                 </LeftDiv>
                 <RightDiv className={this.props.styleR}>
-                    <FileContent ProjectContent={projectContent} onChange={this.onContentChange} />
+                    <FileContent extention={this.state.extention} ProjectContent={projectContent} onChange={this.onContentChange} />
                 </RightDiv>
             </BodyDiv>
         );
