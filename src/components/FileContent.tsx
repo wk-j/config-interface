@@ -5,10 +5,6 @@ import styled from "styled-components"
 import { Node } from "../share/searchApi";
 import { Header, Icon, Segment } from "semantic-ui-react"
 
-const LabelDiv = styled.div`
-  margin-bottom: 5px;
-`
-
 const ContentDiv = styled.div`
   flex-grow: 1;
   margin-bottom: 10px;
