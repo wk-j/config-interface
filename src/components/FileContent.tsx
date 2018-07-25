@@ -2,11 +2,8 @@ import React from "react"
 import { TextArea, Button } from "semantic-ui-react"
 import MonacoEditor from "react-monaco-editor";
 import styled from "styled-components"
+import { Node } from "../share/searchApi";
 import { Header, Icon, Segment } from "semantic-ui-react"
-
-const LabelDiv = styled.div`
-  margin-bottom: 5px;
-`
 
 const ContentDiv = styled.div`
   flex-grow: 1;
@@ -19,15 +16,18 @@ type Props = {
     ProjectContent: string
     // tslint:disable-next-line:variable-name
     onChange: (string) => void
+    extention: string
 }
 type State = {
     projectContent: string
+    pattern: string
 }
 export class FileContent extends React.Component<Props, State> {
     constructor(props) {
         super(props)
         this.state = {
             projectContent: props.projectContent,
+            pattern: ""
         }
         this.handleContentChange = this.handleContentChange
     }
@@ -37,6 +37,7 @@ export class FileContent extends React.Component<Props, State> {
     public componentWillReceiveProps(props: Props) {
         this.state = {
             projectContent: props.ProjectContent,
+            pattern: this.state.pattern
         }
     }
     public onSave = (e) => {
@@ -57,13 +58,16 @@ export class FileContent extends React.Component<Props, State> {
         } as any;
         return (
             <div>
+                {}
+                {console.log("here: " + this.props.extention)}
+                {console.log("pattern: " + this.state.pattern)}
                 <ContentDiv>
                     <Segment>
                         <Header as="h5">
                             <Icon name="edit" />
                             <Header.Content>Content</Header.Content>
                         </Header>
-                        <MonacoEditor options={options} language="json" width="100%" height="80%" theme="vs-light" max-width="100%"
+                        <MonacoEditor options={options} language={this.props.extention} width="100%" height="80%" theme="vs-light" max-width="100%"
                             value={this.state.projectContent} onChange={this.handleContentChange} />
                     </Segment>
                 </ContentDiv>
