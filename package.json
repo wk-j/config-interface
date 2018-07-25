@@ -6,7 +6,8 @@
   "dependencies": {
     "highlightable": "^1.0.7",
     "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "vs": "^0.1.0"
   },
   "devDependencies": {
     "@types/react": "^16.4.6",
