@@ -26,6 +26,7 @@ type State = {
     nodes: Node[]
     selectedNode: Node
     extention: string
+    demoContent: string
 }
 
 const BodyDiv = styled.div`
@@ -92,7 +93,8 @@ export class Body extends React.Component<Props, State> {
                 modifieDate: "",
                 fileType: ""
             },
-            extention: ""
+            extention: "",
+            demoContent: ""
         }
     }
 
@@ -131,6 +133,7 @@ export class Body extends React.Component<Props, State> {
             this.setState({ projectName: name[0] })
             this.initProjectSettings(name[0])
         })
+
     }
 
     private getRoot = (): Node => {
@@ -176,11 +179,17 @@ export class Body extends React.Component<Props, State> {
     }
 
     public initSettingContent(value: string) {
+        console.log("Call  Call Call")
         this.searchApi.getSettingContent(value).then(response => {
             this.setState({ projectContent: response.data.content, projectPath: response.data.path })
         })
     }
-
+    private initDemoContent = (path: string, content: string) => {
+        this.searchApi.getDemo(path, content).then(res => {
+            this.setState({ demoContent: res.data.content })
+            // console.log("DEmo" + res.data.content)
+        })
+    }
     private initSaveSettingContent = (path: string, content: string) => {
         if (!this.state.projectName) {
             alert("Plese select project")
@@ -205,7 +214,17 @@ export class Body extends React.Component<Props, State> {
             projectPath: "",
             fileName: [],
             pathProject: [],
-            nodes: []
+            nodes: [],
+            selectedNode: {
+                name: "",
+                id: 0,
+                isRoot: true,
+                parent: 0,
+                isFile: false,
+                pathFile: "",
+                modifieDate: "",
+                fileType: ""
+            }
         })
         this.initProjectSettings(project)
     }
@@ -230,8 +249,11 @@ export class Body extends React.Component<Props, State> {
         })
         this.initSettingContent(pathFile)
     }
+    private onDemo = () => {
+        this.initDemoContent(this.state.projectPath, this.state.projectContent)
+    }
 
-    private onContentChange = (content) => {
+    private onSaveContent = (content) => {
         this.setState({
             projectContent: content
         });
@@ -240,9 +262,13 @@ export class Body extends React.Component<Props, State> {
 
     }
 
+    private onContentChange = (content) => {
+        this.setState({ projectContent: content })
+    }
+
     public render() {
         let { projectName, projectPath, dropdownOption, fileName
-            , pathProject, projectContent, extention } = this.state
+            , pathProject, projectContent, demoContent, selectedNode } = this.state
         return (
             <BodyDiv style={this.props.style}>
                 <LeftDiv className={this.props.styleL}>
@@ -255,7 +281,8 @@ export class Body extends React.Component<Props, State> {
                     </Segment>
                 </LeftDiv>
                 <RightDiv className={this.props.styleR}>
-                    <FileContent extention={this.state.extention} ProjectContent={projectContent} onChange={this.onContentChange} />
+                    <FileContent projectPath={projectPath} selectNode={selectedNode} demoText={demoContent}  onDemo={this.onDemo} extention={this.state.extention}
+                        ProjectContent={projectContent} onChange={this.onSaveContent} onContentChange={this.onContentChange} />
                 </RightDiv>
             </BodyDiv>
         );

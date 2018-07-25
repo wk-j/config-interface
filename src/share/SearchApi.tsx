@@ -26,6 +26,9 @@ type PathFile = {
 type PathProject = {
     path: string;
 }
+type demo = {
+    content: string;
+}
 
 export class SearchApi {
     constructor(private url: string) {
@@ -66,5 +69,11 @@ export class SearchApi {
     }
     public getPath(projectName: string) {
         return axios.get<PathProject>(`${this.url}/api/search/GetProjectPath/?projectName=${projectName}`, this.getHeaders())
+    }
+    public getDemo(projectPath: string, projectContent: string) {
+        return axios.post(`${this.url}/api/Search/ShowDemoContent`, {
+            path: projectPath,
+            content: projectContent
+        }, this.getHeaders())
     }
 }
