@@ -26,6 +26,7 @@ type Props = {
     demoText: string
     selectNode: Node
     projectPath: string
+    pass: boolean
 }
 type State = {
     pattern: string
@@ -105,11 +106,14 @@ export class FileContent extends React.Component<Props, State> {
                                 value={this.props.demoText} />
                         </Modal.Content>
                         <Modal.Actions>
-                            <Button floated="right" icon labelPosition="left" onClick={this.onSave}>
-                                <Icon name="save" />
+                            <Button color="green" disabled={!this.props.pass} floated="right" icon labelPosition="left" onClick={this.onSave}>
+                                <Icon name="check" />
                                 Confirm
                             </Button>
-                            <Button onClick={this.close}>Cancel</Button>
+                            <Button color="red" icon labelPosition="left" onClick={this.close}>
+                                <Icon name="cancel" />
+                                Cancel
+                            </Button>
                         </Modal.Actions>
                     </Modal>
                 </div>

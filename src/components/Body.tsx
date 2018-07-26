@@ -1,12 +1,12 @@
 import React, { CSSProperties } from "react"
 import styled from "styled-components"
-import { getApiUrl } from "../share/Configuration";
-import { SearchApi, Node } from "../share/searchApi";
+import { getApiUrl } from "../share/Configuration"
+import { SearchApi, Node } from "../share/searchApi"
 import { ProjectList } from "./ProjectList"
 import { FileList } from "./FileList"
 import { FileContent } from "./FileContent"
-import { Segment } from "../../node_modules/semantic-ui-react";
-import "../css/Body.css"
+import { Segment } from "semantic-ui-react"
+import swal from "sweetalert2"
 
 type Props = {
     styleR: string
@@ -27,6 +27,7 @@ type State = {
     selectedNode: Node
     extention: string
     demoContent: string
+    formatPass: boolean
 }
 
 const BodyDiv = styled.div`
@@ -94,7 +95,8 @@ export class Body extends React.Component<Props, State> {
                 fileType: ""
             },
             extention: "",
-            demoContent: ""
+            demoContent: "",
+            formatPass: null
         }
     }
 
@@ -179,30 +181,46 @@ export class Body extends React.Component<Props, State> {
     }
 
     public initSettingContent(value: string) {
-        console.log("Call  Call Call")
         this.searchApi.getSettingContent(value).then(response => {
             this.setState({ projectContent: response.data.content, projectPath: response.data.path })
         })
     }
     private initDemoContent = (path: string, content: string) => {
         this.searchApi.getDemo(path, content).then(res => {
-            this.setState({ demoContent: res.data.content })
+            this.setState({ demoContent: res.data.content, formatPass: res.data.pass })
             // console.log("DEmo" + res.data.content)
         })
     }
     private initSaveSettingContent = (path: string, content: string) => {
         if (!this.state.projectName) {
-            alert("Plese select project")
+            swal(
+                "warning!",
+                "Please select Project.",
+                "warning"
+            )
         }
         if (!this.state.projectPath || !this.state.projectContent) {
-            alert("Plese select path")
+            swal(
+                "warning!",
+                "Please select Path.",
+                "warning"
+            )
         }
         this.searchApi.saveSettingContent(path, content).then(res => {
             if (res.data.success) {
-                alert("SAVE!")
-                console.log("SAVE!");
+                swal({
+                    position: "center",
+                    type: "success",
+                    title: "Your file has been saved",
+                    showConfirmButton: false,
+                    timer: 1200
+                  })
             } else {
-                alert("ERROR : " + Error)
+                swal(
+                    "Error!",
+                    Error.toString(),
+                    "error"
+                )
             }
         })
     }
@@ -268,7 +286,8 @@ export class Body extends React.Component<Props, State> {
 
     public render() {
         let { projectName, projectPath, dropdownOption, fileName
-            , pathProject, projectContent, demoContent, selectedNode } = this.state
+            , pathProject, projectContent, demoContent, selectedNode
+            , formatPass } = this.state
         return (
             <BodyDiv style={this.props.style}>
                 <LeftDiv className={this.props.styleL}>
@@ -281,7 +300,7 @@ export class Body extends React.Component<Props, State> {
                     </Segment>
                 </LeftDiv>
                 <RightDiv className={this.props.styleR}>
-                    <FileContent projectPath={projectPath} selectNode={selectedNode} demoText={demoContent}  onDemo={this.onDemo} extention={this.state.extention}
+                    <FileContent pass={formatPass} projectPath={projectPath} selectNode={selectedNode} demoText={demoContent} onDemo={this.onDemo} extention={this.state.extention}
                         ProjectContent={projectContent} onChange={this.onSaveContent} onContentChange={this.onContentChange} />
                 </RightDiv>
             </BodyDiv>
