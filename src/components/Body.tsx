@@ -102,28 +102,14 @@ export class Body extends React.Component<Props, State> {
 
     public componentDidMount() {
         this.searchApi.getProjectNames().then(res => {
-            let options = []
-            let name = []
-            res.data.map(x => {
-                // เอาdata push เข้าไปใน option
-                options.push({ value: x, text: x, icon: "folder" })
-                name.push(x)
-            });
+            let name = res.data;
+            let options = res.data.map(x => ({ value: x, text: x, icon: "folder" }))
             this.setState({ dropdownOption: options })
             // ได้ค่าโปรเจคทั้งหมดมาเก็บในoption
             this.defaultValue()
         })
         let exten = this.state.selectedNode.fileType
-        let pattern = ""
-        if (exten === ".json") {
-            pattern = "json"
-        } else if (exten === ".xml" || exten === ".config") {
-            pattern = "xml"
-        } else if (exten === ".properties") {
-            pattern = "ini"
-        } else {
-            pattern = "json"
-        }
+        let pattern = this.getLanguage(exten)
         this.setState({
             extention: pattern
         })
@@ -247,19 +233,21 @@ export class Body extends React.Component<Props, State> {
         this.initProjectSettings(project)
     }
 
+    private getLanguage(extension: string) {
+        const langs = {
+            ".json": "json",
+            ".xml": "xml",
+            ".config": "xml",
+            ".properties": "ini"
+        }
+        let lang = langs[extension];
+        return lang === null ? "json" : lang
+    }
+
     private onSelect = (node) => {
         let pathFile = node.pathFile
         let exten = node.fileType
-        let pattern = ""
-        if (exten === ".json") {
-            pattern = "json"
-        } else if (exten === ".xml" || exten === ".config") {
-            pattern = "xml"
-        } else if (exten === ".properties") {
-            pattern = "ini"
-        } else {
-            pattern = "json"
-        }
+        let pattern = this.getLanguage(exten)
         this.setState({
             selectedNode: node,
             projectPath: pathFile,

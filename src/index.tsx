@@ -9,6 +9,8 @@ import "semantic-ui-css/semantic.min.css"
 import "./css/Body.css"
 import AppStorage from "./share/AppStorage"
 
+import JsonWorker from "monaco-editor/esm/vs/language/json/json.worker"
+
 type State = {
     loggedIn: boolean
     styleR: string
