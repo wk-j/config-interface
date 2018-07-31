@@ -44,6 +44,8 @@ export class File extends React.Component<FileProps, State> {
     public onClick = (node) => (e) => {
         if (this.props.newContent !== this.props.oldContent) {
             swal({
+                allowOutsideClick: false,
+                backdrop: true,
                 type: "warning",
                 title: "Do you to save the change ?",
                 showCancelButton: true,

@@ -29,6 +29,7 @@ type State = {
     demoContent: string
     formatPass: boolean
     originContent: string
+    currentNode: Node
 }
 
 const BodyDiv = styled.div`
@@ -98,13 +99,22 @@ export class Body extends React.Component<Props, State> {
             extention: "",
             demoContent: "",
             formatPass: null,
-            originContent: ""
+            originContent: "",
+            currentNode: {
+                name: "",
+                id: 0,
+                isRoot: true,
+                parent: 0,
+                isFile: false,
+                pathFile: "",
+                modifieDate: "",
+                fileType: ""
+            }
         }
     }
 
     public componentDidMount() {
         this.searchApi.getProjectNames().then(res => {
-            let name = res.data;
             let options = res.data.map(x => ({ value: x, text: x, icon: "folder" }))
             this.setState({ dropdownOption: options })
             // ได้ค่าโปรเจคทั้งหมดมาเก็บในoption
@@ -266,10 +276,16 @@ export class Body extends React.Component<Props, State> {
 
     private onSaveContent = (content) => {
         this.setState({
-            projectContent: content
+            projectContent: content,
         });
-        this.initProjectSettings(this.state.projectName)
+        this.searchApi.getPath(this.state.projectName).then(res => {
+            this.searchApi.getNode(res.data.path).then(rs => {
+                this.setState({ nodes: rs.data })
+            })
+        })
+        console.log(this.state.selectedNode)
         this.initSaveSettingContent(this.state.projectPath, content)
+        this.initSettingContent(this.state.projectPath)
     }
 
     private onContentChange = (content) => {
