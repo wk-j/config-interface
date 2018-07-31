@@ -28,6 +28,7 @@ type State = {
     extention: string
     demoContent: string
     formatPass: boolean
+    originContent: string
 }
 
 const BodyDiv = styled.div`
@@ -96,7 +97,8 @@ export class Body extends React.Component<Props, State> {
             },
             extention: "",
             demoContent: "",
-            formatPass: null
+            formatPass: null,
+            originContent: ""
         }
     }
 
@@ -168,7 +170,10 @@ export class Body extends React.Component<Props, State> {
 
     public initSettingContent(value: string) {
         this.searchApi.getSettingContent(value).then(response => {
-            this.setState({ projectContent: response.data.content, projectPath: response.data.path })
+            this.setState({
+                projectContent: response.data.content, projectPath: response.data.path
+                , originContent: response.data.content
+            })
         })
     }
     private initDemoContent = (path: string, content: string) => {
@@ -200,7 +205,7 @@ export class Body extends React.Component<Props, State> {
                     title: "Your file has been saved",
                     showConfirmButton: false,
                     timer: 1200
-                  })
+                })
             } else {
                 swal(
                     "Error!",
@@ -265,25 +270,27 @@ export class Body extends React.Component<Props, State> {
         });
         this.initProjectSettings(this.state.projectName)
         this.initSaveSettingContent(this.state.projectPath, content)
-
     }
 
     private onContentChange = (content) => {
         this.setState({ projectContent: content })
+        this.initDemoContent(this.state.projectPath, this.state.projectContent)
     }
 
     public render() {
         let { projectName, projectPath, dropdownOption, fileName
             , pathProject, projectContent, demoContent, selectedNode
-            , formatPass } = this.state
+            , formatPass, originContent } = this.state
         return (
             <BodyDiv style={this.props.style}>
                 <LeftDiv className={this.props.styleL}>
                     <Segment>
                         <ProjectList projectName={projectName} dropdownOption={dropdownOption} onChange={this.onProjectChange} />
                         <div className="box">
-                            <FileList isSelected={this.isSelected} onSelect={this.onSelect} nodes={this.state.nodes} folder={this.getRoot()}
-                                projectPath={projectPath} fileName={fileName} pathProject={pathProject} />
+                            <FileList demoText={demoContent} newContent={projectContent} oldContent={originContent} isSelected={this.isSelected}
+                                onSelect={this.onSelect} nodes={this.state.nodes} folder={this.getRoot()}
+                                onChange={this.onSaveContent} projectPath={projectPath} fileName={fileName} pathProject={pathProject}
+                                extention={this.state.extention} pass={formatPass} onDemo={this.onDemo} />
                         </div>
                     </Segment>
                 </LeftDiv>
