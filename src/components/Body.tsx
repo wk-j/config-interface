@@ -114,6 +114,8 @@ export class Body extends React.Component<Props, State> {
         this.setState({
             extention: pattern
         })
+        this.initSettingContent(this.state.projectPath)
+
     }
 
     private defaultValue() {
@@ -213,6 +215,7 @@ export class Body extends React.Component<Props, State> {
                 )
             }
         })
+        this.initSettingContent(this.state.projectPath)
     }
 
     private onProjectChange = (project) => {
@@ -272,8 +275,11 @@ export class Body extends React.Component<Props, State> {
                 this.setState({ nodes: rs.data })
             })
         })
-        console.log(this.state.selectedNode)
         this.initSaveSettingContent(this.state.projectPath, content)
+        this.initSettingContent(this.state.projectPath)
+    }
+
+    private onDiscard = () => {
         this.initSettingContent(this.state.projectPath)
     }
 
@@ -292,7 +298,7 @@ export class Body extends React.Component<Props, State> {
                     <Segment>
                         <ProjectList projectName={projectName} dropdownOption={dropdownOption} onChange={this.onProjectChange} />
                         <div className="box">
-                            <FileList demoText={demoContent} newContent={projectContent} oldContent={originContent} isSelected={this.isSelected}
+                            <FileList onDiscard={this.onDiscard} demoText={demoContent} newContent={projectContent} oldContent={originContent} isSelected={this.isSelected}
                                 onSelect={this.onSelect} nodes={this.state.nodes} folder={this.getRoot()}
                                 onChange={this.onSaveContent} projectPath={projectPath} fileName={fileName} pathProject={pathProject}
                                 extention={this.state.extention} pass={formatPass} onDemo={this.onDemo} />

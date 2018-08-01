@@ -20,6 +20,7 @@ type Props = {
     extention: string
     pass: boolean
     onDemo: () => void
+    onDiscard: () => void
 }
 
 export class FileList extends React.Component<Props> {
@@ -45,8 +46,8 @@ export class FileList extends React.Component<Props> {
                         <List.Header> {this.props.folder.name} </List.Header>
                         <List.Description></List.Description>
                     </List.Content>
-                    {this.getFolders(folder).map(x => <FileList onDemo={this.props.onDemo} extention={this.props.extention} pass={this.props.pass} demoText={this.props.demoText} onChange={this.props.onChange} newContent={this.props.newContent} oldContent={this.props.oldContent} projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} folder={x} nodes={nodes} />)}
-                    {this.getFiles(folder).map(x => <File onDemo={this.props.onDemo} extention={this.props.extention} pass={this.props.pass} demoText={this.props.demoText} onChange={this.props.onChange} newContent={this.props.newContent} oldContent={this.props.oldContent} projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} file={x} />)}
+                    {this.getFolders(folder).map(x => <FileList onDiscard={this.props.onDiscard} onDemo={this.props.onDemo} extention={this.props.extention} pass={this.props.pass} demoText={this.props.demoText} onChange={this.props.onChange} newContent={this.props.newContent} oldContent={this.props.oldContent} projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} folder={x} nodes={nodes} />)}
+                    {this.getFiles(folder).map(x => <File onDiscard={this.props.onDiscard} onDemo={this.props.onDemo} extention={this.props.extention} pass={this.props.pass} demoText={this.props.demoText} onChange={this.props.onChange} newContent={this.props.newContent} oldContent={this.props.oldContent} projectPath={this.props.projectPath} fileName={this.props.fileName} pathProject={this.props.pathProject} isSelected={this.props.isSelected} onSelect={this.props.onSelect} file={x} />)}
                 </List.Item>
             </List>
         )

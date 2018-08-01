@@ -20,6 +20,7 @@ type FileProps = {
     extention: string
     pass: boolean
     onDemo: () => void
+    onDiscard: () => void
 }
 type State = {
     alert: boolean
@@ -60,7 +61,7 @@ export class File extends React.Component<FileProps, State> {
                     this.setState({ alert: true })
                 } else {
                     this.setState({ alert: false })
-                    this.props.onSelect(node)
+                    this.props.onDiscard()
                 }
             })
         } else {
