@@ -46,15 +46,13 @@ export class App extends React.Component<{}, State> {
             AppStorage.Logout()
         }, 800)
     }
+    public onLogoutPlease = () => {
+        this.setState({ loggedIn: false })
+        AppStorage.Logout()
+    }
 
     public componentDidMount() {
-        /*if (AppStorage.getAccessToken() !== null) {
-        this.setState({ loggedIn: true })
-        } else {
-        this.setState({ loggedIn: false })
-        }*/
         this.setState({ loggedIn: AppStorage.getAccessToken() !== null })
-
     }
 
     public render() {
@@ -64,7 +62,7 @@ export class App extends React.Component<{}, State> {
                 <ContainerDiv>
                     <Header onLogout={this.onLogout} loggedIn={loggedIn} />
                     <div className={styleBody}>
-                        <Body styleR={styleR} styleL={styleL} style={{ padding: "20px", alignSelf: "center", minWidth: "1000px", flex: 1 }} />
+                        <Body onLogoutPlease={this.onLogoutPlease} status={loggedIn} styleR={styleR} styleL={styleL} style={{ padding: "20px", alignSelf: "center", minWidth: "1000px", flex: 1 }} />
                     </div>
                     <Footer style={{ justifyContent: "center", display: "flex" }} />
                 </ContainerDiv>

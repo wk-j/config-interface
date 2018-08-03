@@ -52,7 +52,7 @@ export class File extends React.Component<FileProps, State> {
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                cancelButtonText: "discard",
+                cancelButtonText: "Discard",
                 confirmButtonText: "Save",
                 reverseButtons: true
             }).then((result) => {
@@ -62,6 +62,7 @@ export class File extends React.Component<FileProps, State> {
                 } else {
                     this.setState({ alert: false })
                     this.props.onDiscard()
+                    this.props.onSelect(node)
                 }
             })
         } else {
