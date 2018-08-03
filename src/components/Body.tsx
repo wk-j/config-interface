@@ -12,6 +12,8 @@ type Props = {
     styleR: string
     styleL: string
     style: CSSProperties
+    status: boolean
+    onLogoutPlease: () => void
 }
 
 type State = {
@@ -109,13 +111,16 @@ export class Body extends React.Component<Props, State> {
             // ได้ค่าโปรเจคทั้งหมดมาเก็บในoption
             this.defaultValue()
         })
+            .catch(err => {
+                if (err.response.status === 401) {
+                    this.props.onLogoutPlease()
+                }
+            })
         let exten = this.state.selectedNode.fileType
         let pattern = this.getLanguage(exten)
         this.setState({
             extention: pattern
         })
-        this.initSettingContent(this.state.projectPath)
-
     }
 
     private defaultValue() {
@@ -124,6 +129,11 @@ export class Body extends React.Component<Props, State> {
             this.setState({ projectName: name[0] })
             this.initProjectSettings(name[0])
         })
+            .catch(err => {
+                if (err.response.status === 401) {
+                    this.props.onLogoutPlease()
+                }
+            })
 
     }
 
@@ -152,20 +162,20 @@ export class Body extends React.Component<Props, State> {
             let pathProjects = [];
             console.log("getprojectsettings")
             console.log(response.data)
-            pathProjects = response.data.files.map(x => x);
+            pathProjects = response.data.files;
             this.searchApi.getPath(name).then(res => {
                 this.searchApi.getNode(res.data.path).then(rs => {
                     this.setState({ nodes: rs.data })
                 })
             })
-            this.setState({ pathProject: pathProjects })
-            console.log("Path Project" + pathProjects)
+                .catch(err => {
+                    if (err.response.status === 401) {
+                        this.props.onLogoutPlease()
+                    }
+                })
             this.setState({ projectPath: pathProjects[0] })
-            console.log("ProjectPath" + pathProjects[0])
-            this.initSettingContent(pathProjects[0])
-            let filename2 = this.state.nodes.map(x => x.name)
-            this.setState({ fileName: filename2 })
-            console.log("filename" + this.state.fileName)
+            this.setState({ fileName: this.state.nodes.map(x => x.name) })
+            this.initSettingContent(this.state.projectPath)
         })
     }
 
@@ -176,12 +186,21 @@ export class Body extends React.Component<Props, State> {
                 , originContent: response.data.content
             })
         })
+            .catch(err => {
+                if (err.response.status === 401) {
+                    this.props.onLogoutPlease()
+                }
+            })
     }
     private initDemoContent = (path: string, content: string) => {
         this.searchApi.getDemo(path, content).then(res => {
             this.setState({ demoContent: res.data.content, formatPass: res.data.pass })
-            // console.log("DEmo" + res.data.content)
         })
+            .catch(err => {
+                if (err.response.status === 401) {
+                    this.props.onLogoutPlease()
+                }
+            })
     }
     private initSaveSettingContent = (path: string, content: string) => {
         if (!this.state.projectName) {
@@ -215,7 +234,6 @@ export class Body extends React.Component<Props, State> {
                 )
             }
         })
-        this.initSettingContent(this.state.projectPath)
     }
 
     private onProjectChange = (project) => {
@@ -270,13 +288,18 @@ export class Body extends React.Component<Props, State> {
         this.setState({
             projectContent: content,
         });
+        this.initSaveSettingContent(this.state.projectPath, content)
         this.searchApi.getPath(this.state.projectName).then(res => {
             this.searchApi.getNode(res.data.path).then(rs => {
                 this.setState({ nodes: rs.data })
             })
+                .catch(err => {
+                    if (err.response.status === 401) {
+                        this.props.onLogoutPlease()
+                    }
+                })
+            this.initSettingContent(this.state.projectPath)
         })
-        this.initSaveSettingContent(this.state.projectPath, content)
-        this.initSettingContent(this.state.projectPath)
     }
 
     private onDiscard = () => {
@@ -285,7 +308,7 @@ export class Body extends React.Component<Props, State> {
 
     private onContentChange = (content) => {
         this.setState({ projectContent: content })
-        this.initDemoContent(this.state.projectPath, this.state.projectContent)
+        this.onDemo();
     }
 
     public render() {
