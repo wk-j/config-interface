@@ -1,7 +1,6 @@
 version: '1.0.{build}'
 environment:
   matrix:
-    - nodejs_version: '8'
     - nodejs_version: '9'
 branches:
   only:
