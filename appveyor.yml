@@ -1,0 +1,16 @@
+version: '1.0.{build}'
+image: Visual Studio 2017
+branches:
+  only:
+  - master
+init:
+  - cmd: git config --global core.autocrlf true
+install:
+before_build:
+  - cmd: npm install
+build_script:
+clone_depth: 1
+test_script:
+  - cmd: choco install sonarcube-scanner
+  - cmd: sonarcube-scanner -Dsonar.projectKey=config-interface -Dsonar.organization=wk-j-github -Dsonar.sources=src -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=940f6517a5a823b166a31a9173557dedbdbc9401
+deploy: off

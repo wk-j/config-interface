@@ -12,3 +12,5 @@ publish
 
 .paket
 .vs
+.scannerwork
+.sonarqube
