@@ -34,8 +34,6 @@ export class Login extends React.Component<Props, State> {
             style: "login",
             render: false
         };
-        this.handleUserChange = this.handleUserChange
-        this.handlePassChange = this.handlePassChange
     }
     public handleUserChange = (e) => {
         this.setState({ user: e.target.value })
@@ -48,11 +46,11 @@ export class Login extends React.Component<Props, State> {
     }
     private initLogin = (user: string, pass: string) => {
         this.searchApi.Login(user, pass).then(res => {
-                AppStorage.setAccessToken(res.data.accessToken)
-                this.setState({ status: true, style: "out" })
-                setTimeout(() => {
-                    this.setState({ render: true })
-                }, 850)
+            AppStorage.setAccessToken(res.data.accessToken)
+            this.setState({ status: true, style: "out" })
+            setTimeout(() => {
+                this.setState({ render: true })
+            }, 850)
         }).catch(err => {
             if (err.response.status === 401) {
                 this.setState({ status: false })
@@ -62,7 +60,6 @@ export class Login extends React.Component<Props, State> {
     public render() {
         if (this.state.render) {
             this.props.onLogin(true)
-            // this.setstate({style: "s"})
         }
 
         return (

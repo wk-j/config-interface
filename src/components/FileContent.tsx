@@ -39,19 +39,10 @@ export class FileContent extends React.Component<Props, State> {
             pattern: "",
             open: false
         }
-        this.handleContentChange = this.handleContentChange
     }
     public handleContentChange = (data) => {
         this.props.onContentChange(data);
-        // this.setState({ projectContent: data })
     }
-    /*public componentWillReceiveProps(props: Props) {
-        this.state = {
-            projectContent: props.ProjectContent,
-            pattern: this.state.pattern,
-            open: this.state.open
-        }
-    }*/
     public onDemo = () => {
         this.setState({ open: true })
         this.props.onDemo()
@@ -80,9 +71,6 @@ export class FileContent extends React.Component<Props, State> {
         };
         return (
             <div>
-                {}
-                {console.log("here: " + this.props.extention)}
-                {console.log("pattern: " + this.state.pattern)}
                 <ContentDiv>
                     <Segment>
                         <Header as="h5">
