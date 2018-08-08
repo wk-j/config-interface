@@ -1,11 +1,10 @@
 import React from "react"
-import { TextArea, Button } from "semantic-ui-react"
+import { Button } from "semantic-ui-react"
 import MonacoEditor from "react-monaco-editor";
 import styled from "styled-components"
 import { Node } from "../share/searchApi";
 import { Header, Icon, Segment, Modal } from "semantic-ui-react"
 import "../css/Body.css"
-import { throws } from "assert";
 
 const ContentDiv = styled.div`
   flex-grow: 1;
@@ -47,7 +46,7 @@ export class FileContent extends React.Component<Props, State> {
         this.setState({ open: true })
         this.props.onDemo()
     }
-    public onSave = (e) => {
+    public onSave = () => {
         console.log("onSave")
         this.props.onChange(this.props.demoText)
         this.setState({ open: false })
@@ -65,10 +64,6 @@ export class FileContent extends React.Component<Props, State> {
             rulers: [150],
             readOnly: true
         } as any;
-        const contentStyle = {
-            maxWidth: "600px",
-            width: "90%"
-        };
         return (
             <div>
                 <ContentDiv>

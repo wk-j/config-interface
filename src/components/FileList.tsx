@@ -2,7 +2,6 @@ import React from "react"
 import { List, Modal, Button } from "semantic-ui-react"
 import { Node } from "../share/searchApi";
 import { File } from "./File"
-import styled from "styled-components"
 
 type Props = {
     projectPath: string
@@ -38,7 +37,7 @@ export class FileList extends React.Component<Props> {
     public render() {
         let { folder, nodes } = this.props;
 
-        const ListMain = ({ }) => (
+        const ListMain = () => (
             <List>
                 <List.Item>
                     <List.Icon color="yellow" name="folder" />
