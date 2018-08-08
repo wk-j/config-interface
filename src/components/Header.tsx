@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react"
-import { Menu, Icon, Message, Button } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 import AppStorage from "../share/AppStorage"
 
 type Props = {
